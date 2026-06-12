@@ -1,0 +1,46 @@
+﻿{
+  "name": "research-writing",
+  "version": "1.0.0",
+  "description": "Academic research writing suite combining ARS (deep-research, academic-paper, academic-paper-reviewer, experiment-agent, literature-search) with Nature-Skills (polishing, review, figures, response, paper2ppt). WOS + CNKI literature search with journal-list filtering and Excel export.",
+  "author": {
+    "name": "GrLime",
+    "url": "https://github.com/GrLime909"
+  },
+  "repository": "https://github.com/GrLime909/research-writing",
+  "license": "MIT",
+  "keywords": [
+    "academic-writing",
+    "research",
+    "peer-review",
+    "literature-search",
+    "nature",
+    "CNKI",
+    "WOS",
+    "scientific-writing"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Research Writing",
+    "shortDescription": "Academic research writing suite — deep research, paper writing, peer review, and literature search",
+    "longDescription": "A comprehensive Codex plugin combining the ARS (Academic Research Skills) suite with Nature-Skills. Includes: deep-research (13-agent research team), academic-paper (12-agent writing pipeline fused with nature-style precision drafting), academic-paper-reviewer (7-agent multi-perspective peer review), experiment-agent (code experiment design), and literature-search (unified WOS + CNKI search with journal-list filtering and Excel export). Plus Nature-Skills for polishing, reviewer assessment, figure creation, rebuttal drafting, and paper-to-slides conversion.",
+    "developerName": "GrLime",
+    "category": "Research",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "Write a paper on the impact of AI on higher education quality assurance",
+      "Review this manuscript and provide detailed feedback",
+      "Search WOS for recent papers on urban resilience since 2024"
+    ],
+    "websiteURL": "https://github.com/GrLime909/research-writing",
+    "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+    "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+    "brandColor": "#2563EB",
+    "composerIcon": "./assets/research-writing.png",
+    "logo": "./assets/research-writing.png",
+    "screenshots": []
+  }
+}
