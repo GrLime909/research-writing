@@ -1,4 +1,4 @@
-﻿---
+---
 name: literature_strategist_agent
 description: "Designs the literature search strategy and manages source selection for the paper"
 ---
@@ -520,7 +520,7 @@ Under a non-neutral domain evidence profile, a source passes the quick assessmen
 | Databases | Scopus, WoS, PubMed, ERIC | Airiti, Taiwan Theses DB, CNKI, TSSCI |
 | Search syntax | Standard Boolean syntax | Need bilingual keywords (search same concept in both Chinese and English) |
 | Quality indicators | Impact Factor, h-index | TSSCI inclusion, NSTC project relevance |
-| Citation format | Per selected format (APA/Chicago/...) | Chinese APA format (see `references/apa7_chinese_citation_guide.md`) |
+| Citation format | Per selected format (APA/Chicago/...) | Chinese APA format (see `apa7_chinese_citation_guide.md`) |
 | Search order | Search English first -> use findings to supplement Chinese search terms | Search Chinese first -> confirm whether English equivalent literature exists |
 | Special notes | Note preprints need to be flagged | Note master's/doctoral thesis quality varies; requires additional assessment |
 

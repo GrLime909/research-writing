@@ -46,7 +46,7 @@ The v3.2 venue track closes the venue-specific gap. The #108 anchor track closes
 
 3. **Pipeline signal** (#108 anchor path only): `slr_lineage=true|false` set by the upstream pipeline orchestrator. Required for `--policy-anchor=prisma-trAIce` per §4.3 G2 invariant. Cold-start invocation requires explicit `mode=<value>` parameter; silent fallback to general track is forbidden.
 
-4. **What ARS did**: the mode reads the paper's commit history / pipeline log (if using the full `research-writing suite`) to identify which AI-assisted steps produced which parts of the paper. At minimum: research assistance, drafting assistance, revision assistance, citation checking, peer review simulation. If the pipeline log is not available, ask the user to confirm which categories apply.
+4. **What ARS did**: the mode reads the paper's commit history / pipeline log (if using the full `academic-pipeline`) to identify which AI-assisted steps produced which parts of the paper. At minimum: research assistance, drafting assistance, revision assistance, citation checking, peer review simulation. If the pipeline log is not available, ask the user to confirm which categories apply.
 
 ---
 
