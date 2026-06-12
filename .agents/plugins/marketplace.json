@@ -8,7 +8,7 @@
       "name": "research-writing",
       "source": {
         "source": "local",
-        "path": "./plugin/research-writing"
+        "path": "./plugins/research-writing"
       },
       "policy": {
         "installation": "AVAILABLE",

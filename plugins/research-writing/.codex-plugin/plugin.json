@@ -7,7 +7,7 @@
     "url": "https://github.com/GrLime909"
   },
   "repository": "https://github.com/GrLime909/research-writing",
-  "license": "CC-BY-NC-4.0",
+  "license": "MIT",
   "keywords": [
     "academic-writing",
     "research",
@@ -35,7 +35,12 @@
       "Review this manuscript and provide detailed feedback",
       "Search WOS for recent papers on urban resilience since 2024"
     ],
+    "websiteURL": "https://github.com/GrLime909/research-writing",
+    "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+    "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+    "brandColor": "#2563EB",
     "composerIcon": "./assets/research-writing.png",
-    "logo": "./assets/research-writing.png"
+    "logo": "./assets/research-writing.png",
+    "screenshots": []
   }
 }
