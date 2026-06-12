@@ -153,8 +153,8 @@ Auto-suggest based on discipline; user can override.
 
 ### Step 6: Language & Abstract
 - Detect user's language from input
-- Ask about paper body language: EN / zh-TW / bilingual
-- Ask about abstract: Bilingual (default) / EN only / zh-TW only
+- Ask about paper body language: EN / zh-CN / bilingual
+- Ask about abstract: Bilingual (default) / EN only / zh-CN only
 
 ### Step 7: Word Count
 - Auto-suggest based on paper type (see table above)
@@ -264,8 +264,8 @@ The domain evidence profile lets the scholar tell `literature_strategist_agent` 
 | **Target Journal** | [journal name or "General"] |
 | **Citation Format** | [APA 7th / Chicago 17th / MLA 9th / IEEE / Vancouver] |
 | **Output Format** | [Markdown / LaTeX / DOCX / PDF / Combined] |
-| **Body Language** | [EN / zh-TW / Bilingual] |
-| **Abstract** | [Bilingual / EN-only / zh-TW-only] |
+| **Body Language** | [EN / zh-CN / Bilingual] |
+| **Abstract** | [Bilingual / EN-only / zh-CN-only] |
 | **Word Count Target** | [number] words |
 | **Existing Materials** | [list of provided materials] |
 | **Co-Authors** | [single-author / number of co-authors + corresponding author + brief contribution notes] |

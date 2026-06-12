@@ -26,7 +26,7 @@ Two internal engines, never called directly from outside:
 literature-search/
 ├── SKILL.md                    ← this file (you are here)
 ├── wos-monitor/                ← WOS engine (8 sub-skills, 86 journals)
-│   ├── SKILL.md
+│   ├── workflow.md              ← WOS engine overview + sub-skill index
 │   ├── wos-journals.txt
 │   ├── agents/wos-researcher.md
 │   ├── skills/                 (wos-search, parse-results, navigate-pages,
@@ -40,11 +40,73 @@ literature-search/
     │                            navigate-pages, paper-detail, download,
     │                            journal-search, journal-index, journal-toc,
     │                            export, excel-export)
+    ├── workflow.md              ← CNKI engine overview + sub-skill index
     └── scripts/excel_manager.py
 ```
 
 **Requires**: institutional WOS and CNKI access via IP. Chrome browser with
 manual IP-based login completed.
+
+---
+
+## Execution Routing (MANDATORY)
+
+This `SKILL.md` is the **only auto-discovered skill file** in literature-search.
+All execution instructions live in `workflow.md` files that are **not**
+auto-discovered by Codex. **Before executing any operation, you MUST read
+exactly the workflow file(s) listed in the routing table below.** Do NOT
+read more files than needed, and do NOT improvise execution steps from
+memory — the workflow files contain the exact JS code, API endpoints,
+DOM selectors, and Chrome CDP calls required.
+
+### WOS Routing Table
+
+All paths relative to `literature-search/`.
+
+| User intent | Read this file |
+|-------------|---------------|
+| WOS keyword search, topic search | `wos-monitor/skills/wos-search/workflow.md` |
+| Browse / next page / previous page | `wos-monitor/skills/wos-navigate-pages/workflow.md` |
+| View paper full record (abstract, refs) | `wos-monitor/skills/wos-paper-detail/workflow.md` |
+| Download PDF | `wos-monitor/skills/wos-download/workflow.md` |
+| Export to Zotero / RIS / BibTeX | `wos-monitor/skills/wos-export/workflow.md` |
+| Export / append to Excel | `wos-monitor/skills/wos-excel-export/workflow.md` |
+| Parse current results page (auto after search) | `wos-monitor/skills/wos-parse-results/workflow.md` |
+| WOS anti-detection rules, API patterns | `wos-monitor/agents/wos-researcher.md` |
+| WOS page CSS selectors reference | `wos-monitor/references/wos-selectors.md` |
+| Publisher page selectors (Elsevier, Springer...) | `wos-monitor/references/publisher-selectors.md` |
+
+For any WOS operation, the routing table above is **the only lookup you need**.
+Do NOT read `wos-monitor/workflow.md` unless you need the full engine overview.
+
+### CNKI Routing Table
+
+All paths relative to `literature-search/`.
+
+| User intent | Read this file |
+|-------------|---------------|
+| CNKI keyword search | `cnki-skills/skills/cnki-search/workflow.md` |
+| Advanced search (author / journal / date / source filter) | `cnki-skills/skills/cnki-advanced-search/workflow.md` |
+| Browse / next page / sort results | `cnki-skills/skills/cnki-navigate-pages/workflow.md` |
+| View paper details (abstract, keywords, fund) | `cnki-skills/skills/cnki-paper-detail/workflow.md` |
+| Download PDF / CAJ | `cnki-skills/skills/cnki-download/workflow.md` |
+| Export to Zotero / RIS / GB/T 7714 | `cnki-skills/skills/cnki-export/workflow.md` |
+| Export / append to Excel | `cnki-skills/skills/cnki-excel-export/workflow.md` |
+| Parse current results page (auto after search) | `cnki-skills/skills/cnki-parse-results/workflow.md` |
+| Find journal by name / ISSN / CN | `cnki-skills/skills/cnki-journal-search/workflow.md` |
+| Query journal indexing & impact factor | `cnki-skills/skills/cnki-journal-index/workflow.md` |
+| Browse journal table of contents | `cnki-skills/skills/cnki-journal-toc/workflow.md` |
+| CNKI anti-bot rules, page management | `cnki-skills/agents/cnki-researcher.md` |
+
+For any CNKI operation, the routing table above is **the only lookup you need**.
+Do NOT read `cnki-skills/workflow.md` unless you need the full engine overview.
+
+### Rules
+
+1. **One intent → one file.** Read only the file(s) that match the current operation.
+2. **Read before execute.** Always read the workflow file before running any Chrome CDP call.
+3. **Never improvise.** If you haven't read the workflow file, you don't know the correct selectors or API calls.
+4. **Compound operations.** A search-then-export workflow reads two files sequentially, not at once.
 
 ---
 
@@ -239,18 +301,18 @@ homographic abbreviations.
 
 ```
 wos-monitor/
-├── SKILL.md                     ← WOS entry point
+├── workflow.md                  ← WOS engine overview + sub-skill index
 ├── wos-journals.txt             ← 86-journal list (external, editable)
 ├── agents/
 │   └── wos-researcher.md        ← Agent orchestrator
 ├── skills/
-│   ├── wos-search/SKILL.md      ← Search + journal filter (reads wos-journals.txt)
-│   ├── wos-parse-results/SKILL.md
-│   ├── wos-navigate-pages/SKILL.md
-│   ├── wos-paper-detail/SKILL.md
-│   ├── wos-download/SKILL.md
-│   ├── wos-export/SKILL.md
-│   └── wos-excel-export/SKILL.md
+│   ├── wos-search/workflow.md      ← Search + journal filter (reads wos-journals.txt)
+│   ├── wos-parse-results/workflow.md
+│   ├── wos-navigate-pages/workflow.md
+│   ├── wos-paper-detail/workflow.md
+│   ├── wos-download/workflow.md
+│   ├── wos-export/workflow.md
+│   └── wos-excel-export/workflow.md
 ├── scripts/
 │   ├── excel_manager.py         ← Excel read/append/dedup
 │   └── journal_monitor.py       ← Batch WOS API search + Excel
@@ -260,6 +322,8 @@ wos-monitor/
     └── publisher-selectors.md   ← Publisher page selectors
 ```
 
+
+Sub-skill routing is defined in the **WOS Routing Table** above — always consult that table before any WOS operation.
 
 ### Journal-List Filtering
 
@@ -308,23 +372,12 @@ cnki-skills/
     └── excel_manager.py         ← Excel read/append/dedup
 ```
 
-### Sub-skill Routing
-
-Literature-search delegates to the appropriate cnki sub-skill based on intent:
-
-| User intent | Sub-skill used |
-|-------------|---------------|
-| Keyword search | `cnki-search` |
-| Author/journal/date filters | `cnki-advanced-search` |
-| Parse current page | `cnki-parse-results` (auto) |
-| Next/previous page | `cnki-navigate-pages` |
-| Paper details | `cnki-paper-detail` |
-| Export to Zotero | `cnki-export` |
+Sub-skill routing is defined in the **CNKI Routing Table** above — always consult that table before any CNKI operation.
 
 ### Workflow
 
-1. Determine intent -> route to appropriate sub-skill
-2. Execute search via Chrome CDP
+1. Determine intent → look up the **CNKI Routing Table** → read the matched workflow file
+2. Execute search via Chrome CDP (following the workflow file instructions)
 3. Parse results into structured data
 4. Deduplicate against existing Excel
 5. Export and report

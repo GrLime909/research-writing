@@ -46,10 +46,13 @@ Before writing, confirm you have:
 - [ ] Style Profile — check `style_profile` field in Paper Configuration Record. If `null`, skip all style-related steps below. Only if non-null: read `shared/style_calibration_protocol.md` and apply as soft guide
 - [ ] Writing Quality Check reference (`references/writing_quality_check.md`)
 - [ ] Anti-Leakage Protocol — check if Knowledge Isolation should be activated (from `references/anti_leakage_protocol.md`). Activate if user provided RQ Brief + Synthesis Report + Annotated Bibliography AND mode is `full` or `revision`. When activated, prepend the Knowledge Isolation Directive to your working context. When not activated (plan/socratic mode, or minimal materials), skip.
+- [ ] Section Writing Router — read `references/section_writing_router.md`; load paper-type argument chain from `references/paper-type-chains/` based on Paper Configuration Record's `paper_type` field. This argument chain guides overall section ordering and evidence mapping for the paper.
 
 ### Step 2: Section-by-Section Writing
 
 For each section in the outline:
+
+0. **Load section fragment** — read the section fragment from `references/section-fragments/` based on the current section being written (see `references/section_writing_router.md` for the mapping table). Apply its paragraph movement, drafting rules, and failure mode diagnostics during the steps below.
 
 1. **Review** the section's purpose, assigned sources, and argument points
 2. **Draft** the section following the outline and CER chains
@@ -57,6 +60,7 @@ For each section in the outline:
 4. **Write transitions** connecting to the next section
 5. **Check word count** against allocation
 6. **Self-review** for clarity, logic, and completeness
+   Run the section fragment's diagnostics checklist (from the loaded fragment) before moving to the next section.
 7. **Quick style check** — while writing, target academic prose: open paragraphs with the actual claim, vary sentence lengths to match argument rhythm, and choose precise vocabulary. `references/writing_quality_check.md` is the style diagnostic after drafting. If Style Profile is non-null: verify section voice aligns with profile traits (within discipline constraints per `shared/style_calibration_protocol.md` priority system)
 
 ### Step 3: Full Draft Assembly
@@ -190,6 +194,7 @@ INPUT: Paper Outline + Argument Blueprint + Annotated Bibliography
 OUTPUT: Complete Draft (produced section by section)
 
 Phase A: Preparation (before each section begins)
+  0. Load the section fragment from references/section-fragments/{section}.md (router mapping in references/section_writing_router.md)
   1. Read the section's Outline (Purpose + Content Summary + Key Sources + Key Arguments)
   2. Read the section's CER chains (from Argument Blueprint)
   3. Prepare the section's citation list (from Annotated Bibliography -> Potential Use)
@@ -250,7 +255,7 @@ L — Link
     -> Use transition words/phrases
 ```
 
-**Paragraph length standard**: Each paragraph 120-200 words (EN) or 200-350 characters (zh-TW)
+**Paragraph length standard**: Each paragraph 120-200 words (EN) or 200-350 characters (zh-CN)
 **Minimum per section**: At least 3 TEEL paragraphs
 **Exceptions**: The first paragraph of Introduction and the last paragraph of Conclusion need not strictly follow TEEL
 

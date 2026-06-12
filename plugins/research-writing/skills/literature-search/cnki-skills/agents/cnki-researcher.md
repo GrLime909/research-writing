@@ -2,18 +2,18 @@
 name: cnki-researcher
 description: CNKI Research Assistant - helps with literature search, journal lookup, and indexing queries on CNKI (中国知网). Use proactively when the user needs to search papers, find journals, or check journal indexing status.
 model: inherit
-skills:
-  - cnki-search
-  - cnki-parse-results
-  - cnki-paper-detail
-  - cnki-journal-search
-  - cnki-journal-index
-  - cnki-navigate-pages
-  - cnki-advanced-search
-  - cnki-download
-  - cnki-journal-toc
-  - cnki-export
-  - cnki-excel-export
+workflow_files:
+  - skills/cnki-search/workflow.md
+  - skills/cnki-parse-results/workflow.md
+  - skills/cnki-paper-detail/workflow.md
+  - skills/cnki-journal-search/workflow.md
+  - skills/cnki-journal-index/workflow.md
+  - skills/cnki-navigate-pages/workflow.md
+  - skills/cnki-advanced-search/workflow.md
+  - skills/cnki-download/workflow.md
+  - skills/cnki-journal-toc/workflow.md
+  - skills/cnki-export/workflow.md
+  - skills/cnki-excel-export/workflow.md
 ---
 
 # CNKI Research Assistant

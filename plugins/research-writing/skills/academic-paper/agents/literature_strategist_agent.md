@@ -35,6 +35,29 @@ If downstream work is needed, return control to the caller with a recommendation
 
 ## Search Strategy Design
 
+### Pre-Step: Knowledge Base Pre-Read (before search strategy design)
+
+Before identifying key concepts, check the user's local knowledge bases.
+This step is **non-blocking** — if either source is unavailable, skip it silently.
+
+**Zotero (via `@zotero` plugin):**
+1. Run `python3 <zotero-plugin>/skills/zotero/scripts/zotero.py status --json`
+2. If available, search with the paper's primary keywords: `search "<keywords>" --json`
+3. Read notes (`children <KEY> --json`) for papers matching the paper topic
+4. Collect: item keys, titles, user annotations, tags — these become seed references
+5. Export relevant items: `export-bibtex --out references.bib` for the paper's `.bib`
+
+**Obsidian (via pathmap `obsidian/03-科研笔记/`):**
+1. Read `文献/研究主题索引.md` — established research themes
+2. Read `论文搜索关键词*.md` — user's keyword taxonomy (use to refine key concepts in Step 1)
+3. Scan `汇总文档/` for notes related to the paper topic from the PCR
+4. Collect: relevant note titles, key concepts, established terminology
+
+**Output of Pre-Step:** A list of `[USER-ZOTERO]` and `[USER-NOTES]` seed references
+that feed into Step 1 (key concept refinement) and the annotated bibliography.
+
+---
+
 ### Step 1: Identify Key Concepts
 From the Paper Configuration Record, extract:
 - Primary concepts (2-4 core terms)
@@ -116,7 +139,7 @@ def admit(source):
 |-----------|---------|---------|
 | Publication type | Peer-reviewed journals, books, conference proceedings | Blog posts, news articles (unless as primary data) |
 | Date range | Last 10 years (default) + seminal works | Outdated unless historically relevant |
-| Language | Per config (EN, zh-TW, or both) | Other languages unless key source |
+| Language | Per config (EN, zh-CN, or both) | Other languages unless key source |
 | Relevance | Directly addresses RQ | Tangentially related |
 
 Under a non-neutral domain evidence profile, the profile's standard evidence types are added to the includable set before screening — the peer-reviewed filter (Step 3 `Filters:` line and the Step 4 Publication type / Date range rows) relaxes to peer-reviewed-equivalent for `cs_ml`; the year-range relaxes for `humanities_interpretive` canonical texts. Never tightened, never dropping anything the neutral filter would have kept (these are upstream hard filters that would otherwise starve the admit paths the screening tree opens downstream). Search-string enrichment under a profile is optional/additive and does NOT change the Step 2 `Discipline`-driven database table.

@@ -120,7 +120,7 @@ User Input →
 **Not Applicable When**:
 - No paper content to summarize (→ full mode or plan mode)
 
-**Expected Output**: Bilingual abstract (zh-TW + EN) + keywords
+**Expected Output**: Bilingual abstract (zh-CN + EN) + keywords
 **Expected Duration**: Short
 **Agents Used**: intake → abstract_bilingual
 
@@ -221,15 +221,15 @@ academic-paper completed
 
 | User Says | Easily Misselected | Correct Choice | Reason |
 |---------|---------|---------|------|
-| "Help me write an outline" / 「幫我寫大綱」 | outline-only | First confirm: Do they want a simple outline or deep planning? | May need plan mode |
-| "I want to write a paper but don't know how to start" / 「想寫論文但不知道怎麼開始」 | full | plan mode | Needs guided thinking |
-| "Help me revise my paper" / 「幫我修改論文」 | revision | First confirm: Are there reviewer comments? | May need full mode rewrite |
-| "Help me search for literature" / 「幫我找文獻」 | lit-review | First confirm: Is it a literature review for a paper or a research investigation? | May need deep-research |
-| "I have deep-research results, help me write a paper" / 「我有研究結果，幫我寫成論文」 | full (skip Phase 0 directly) | full (but intake needs to detect handoff) | Materials need to be properly imported |
-| "I want to plan my paper step by step" / 「我想逐步規劃論文」 | outline-only | plan mode | Needs interactive guidance |
-| "The paper format is wrong" / 「論文格式不對」 | revision | citation-check or format-convert | May only need format correction |
-| 「帶我寫論文」/「引導我寫論文」 | full | plan mode | 使用者需要互動式引導，不是直接產出 |
-| 「第一次寫論文」/「論文新手」 | full | plan mode | 新手需要蘇格拉底式逐章引導 |
+| "Help me write an outline" / 「帮我写大纲」 | outline-only | First confirm: Do they want a simple outline or deep planning? | May need plan mode |
+| "I want to write a paper but don't know how to start" / 「想写论文但不知道怎么开始」 | full | plan mode | Needs guided thinking |
+| "Help me revise my paper" / 「帮我修改论文」 | revision | First confirm: Are there reviewer comments? | May need full mode rewrite |
+| "Help me search for literature" / 「帮我找文献」 | lit-review | First confirm: Is it a literature review for a paper or a research investigation? | May need deep-research |
+| "I have deep-research results, help me write a paper" / 「我有研究结果，帮我写成论文」 | full (skip Phase 0 directly) | full (but intake needs to detect handoff) | Materials need to be properly imported |
+| "I want to plan my paper step by step" / 「我想逐步规划论文」 | outline-only | plan mode | Needs interactive guidance |
+| "The paper format is wrong" / 「论文格式不对」 | revision | citation-check or format-convert | May only need format correction |
+| 「带我写论文」/「引导我写论文」 | full | plan mode | 使用者需要互动式引导，不是直接产出 |
+| 「第一次写论文」/「论文新手」 | full | plan mode | 新手需要苏格拉底式逐章引导 |
 
 ---
 

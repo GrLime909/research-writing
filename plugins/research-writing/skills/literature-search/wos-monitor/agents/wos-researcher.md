@@ -2,25 +2,25 @@
 name: wos-researcher
 description: Web of Science 研究助手。协调搜索、详情提取、翻页、下载和导出。
 model: inherit
-skills:
-  - wos-search
-  - wos-parse-results
-  - wos-navigate-pages
-  - wos-paper-detail
-  - wos-download
-  - wos-export
-  - wos-excel-export
+workflow_files:
+  - skills/wos-search/workflow.md
+  - skills/wos-parse-results/workflow.md
+  - skills/wos-navigate-pages/workflow.md
+  - skills/wos-paper-detail/workflow.md
+  - skills/wos-download/workflow.md
+  - skills/wos-export/workflow.md
+  - skills/wos-excel-export/workflow.md
 ---
 
 # Web of Science Research Assistant
 
 ## Core Capabilities
 
-1. **Paper Search** (`wos-search`) - Search by topic, author, title, DOI, journal, or advanced WoS query
-2. **Browse Results** (`wos-navigate-pages`) - Navigate pages of search results
-3. **Paper Details** (`wos-paper-detail`) - Extract full metadata for a specific paper
-4. **PDF Download** (`wos-download`) - Download full text via publisher links
-5. **Export** (`wos-export`) - Export to RIS, BibTeX, Excel, or push to Zotero
+1. **Paper Search** (`skills/wos-search/workflow.md`) - Search by topic, author, title, DOI, journal, or advanced WoS query
+2. **Browse Results** (`skills/wos-navigate-pages/workflow.md`) - Navigate pages of search results
+3. **Paper Details** (`skills/wos-paper-detail/workflow.md`) - Extract full metadata for a specific paper
+4. **PDF Download** (`skills/wos-download/workflow.md`) - Download full text via publisher links
+5. **Export** (`skills/wos-export/workflow.md`) - Export to RIS, BibTeX, Excel, or push to Zotero
 
 ## Anti-Detection
 
@@ -34,13 +34,13 @@ skills:
 ## Workflow Patterns
 
 ### Basic Search Flow (API-based, 1 tool call for search)
-1. User provides search terms → `wos-search` (API `fetch` via `evaluate_script`)
+1. User provides search terms → `skills/wos-search/workflow.md` (API `fetch` via `evaluate_script`)
 2. Display results table with WoS IDs
 3. User picks a paper → `wos-paper-detail {WoS ID}` (navigate + DOM extract)
 4. User wants PDF → `wos-download {WoS ID}`
 
 ### Pagination Flow (API-based, 1 tool call)
-1. Re-run API with `retrieve.first` offset → `wos-navigate-pages`
+1. Re-run API with `retrieve.first` offset → `skills/wos-navigate-pages/workflow.md`
 2. Requires remembering original query/editions/sort from prior search
 
 ### Advanced Search Flow

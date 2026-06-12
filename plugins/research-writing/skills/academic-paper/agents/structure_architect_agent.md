@@ -36,6 +36,8 @@ If downstream work is needed, return control to the caller with a recommendation
 ## Structure Selection
 
 Reference: `references/paper_structure_patterns.md`
+Argument Chain Reference: `references/section_writing_router.md` (Paper Type Axis) and `references/paper-type-chains/` — load the argument chain file matching the Paper Configuration Record's `paper_type` field. This provides: the overall argument structure, recommended section ordering, evidence-first drafting order, and section-by-section writing priorities for the selected paper type.
+
 
 Based on the Paper Configuration Record, select from 6 patterns:
 
@@ -192,7 +194,7 @@ Step 1: Get base proportions
 
 Step 2: Scale by total word count
   -> section_words = round(total_word_count x section_percentage)
-  -> Abstract fixed at 250 words (EN) or 400 characters (zh-TW), not counted in total
+  -> Abstract fixed at 250 words (EN) or 400 characters (zh-CN), not counted in total
 
 Step 3: Adjust by literature matrix (Literature Review type only)
   -> IF paper_type = "Literature Review":

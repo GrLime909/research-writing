@@ -163,7 +163,7 @@ although, despite, while, granted that, notwithstanding
 | Discussion (interpreting) | Present | "These findings suggest..." |
 | Conclusion (implications) | Present/Future | "This has implications for... / Future research should..." |
 
-## Chinese Academic Writing (zh-TW) Conventions
+## Chinese Academic Writing (zh-CN) Conventions
 
 ### Register
 - Use written/formal language; avoid colloquial expressions

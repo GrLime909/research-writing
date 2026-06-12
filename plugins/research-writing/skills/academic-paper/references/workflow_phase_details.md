@@ -14,8 +14,8 @@ Detailed per-phase agent behavior and output descriptions for the 8-phase orches
 - Target journal (optional)
 - Citation format (APA 7 / Chicago / MLA / IEEE / Vancouver)
 - Output format (LaTeX / DOCX / PDF / Markdown / Combined)
-- Language (EN / zh-TW / bilingual sections)
-- Bilingual abstract (Yes / EN-only / zh-TW-only)
+- Language (EN / zh-CN / bilingual sections)
+- Bilingual abstract (Yes / EN-only / zh-CN-only)
 - Word count target
 - Existing materials (RQ, data, drafts, lit)
 
@@ -96,9 +96,9 @@ Detailed per-phase agent behavior and output descriptions for the 8-phase orches
 **Output**: Bilingual Abstract + Keywords
 
 - English abstract (150-300 words, structured)
-- Traditional Chinese abstract (300-500 characters, structured)
+- Simplified Chinese abstract (300-500 characters, structured)
 - EN keywords (5-7)
-- zh-TW keywords (5-7)
+- zh-CN keywords (5-7)
 - Independent writing (not mechanical translation)
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: academic-paper
-description: "12-agent academic paper writing pipeline. 10 modes (full/plan/outline/revision/revision-coach/abstract/lit-review/format-convert/citation-check/disclosure). 6 paper types, 5 citation formats, bilingual abstracts, LaTeX/DOCX-via-Pandoc/PDF output. Style Calibration + Writing Quality Check + Anti-Patterns with IRON RULE markers. Triggers: write paper, academic paper, guide my paper, parse reviews, AI disclosure, 寫論文, 學術論文, 引導我寫論文, 審查意見."
+description: "12-agent academic paper writing pipeline. 10 modes (full/plan/outline/revision/revision-coach/abstract/lit-review/format-convert/citation-check/disclosure). 6 paper types, 5 citation formats, bilingual abstracts, LaTeX/DOCX-via-Pandoc/PDF output. Style Calibration + Writing Quality Check + Anti-Patterns with IRON RULE markers. Triggers: write paper, academic paper, guide my paper, parse reviews, AI disclosure, 写论文, 学术论文, 引导我写论文, 审查意见."
 metadata:
   version: "3.2.0"
   last_updated: "2026-06-01"
@@ -52,7 +52,7 @@ Write a paper on the impact of declining birth rates on private university manag
 
 **English**: write paper, academic paper, paper outline, write abstract, revise paper, literature review paper, check citations, convert to LaTeX, convert format, format paper, conference paper, journal article, thesis chapter, research paper, guide my paper, help me plan my paper, step by step paper, draft manuscript, write methodology, write discussion, parse reviews, revision roadmap, help me with my revision, I got reviewer comments, convert citations
 
-**繁體中文**: 寫論文, 學術論文, 論文大綱, 寫摘要, 修改論文, 文獻回顧論文, 檢查引用, 轉 LaTeX, 轉換格式, 研討會論文, 期刊文章, 學位論文, 研究論文, 引導我寫論文, 幫我規劃論文, 逐步寫論文, 寫方法論, 寫討論, 審查意見, 修訂路線圖, 幫我修改, 我收到審查意見, 轉換引用格式
+**简体中文**: 写论文, 学术论文, 论文大纲, 写摘要, 修改论文, 文献回顾论文, 检查引用, 转 LaTeX, 转换格式, 研讨会论文, 期刊文章, 学位论文, 研究论文, 引导我写论文, 帮我规划论文, 逐步写论文, 写方法论, 写讨论, 审查意见, 修订路线图, 帮我修改, 我收到审查意见, 转换引用格式
 
 ### Plan Mode Activation
 
@@ -75,7 +75,7 @@ Activate `plan` mode when the user wants guidance, step-by-step planning, or exp
 | Primary output | Publishable paper draft | Research report |
 | Structure | Journal-ready (IMRaD, etc.) | APA 7.0 report |
 | Citation | Multi-format (APA/Chicago/MLA/IEEE/Vancouver) | APA 7.0 only |
-| Abstract | Bilingual (zh-TW + EN) | Single language |
+| Abstract | Bilingual (zh-CN + EN) | Single language |
 | Peer review | Simulated 5-dimension review | Editorial review |
 | Output format | LaTeX/DOCX (via Pandoc)/PDF/Markdown | Markdown only |
 | Revision loop | Max 2 rounds with targeted feedback | Max 2 rounds |
@@ -92,7 +92,7 @@ Activate `plan` mode when the user wants guidance, step-by-step planning, or exp
 | 4 | `argument_builder_agent` | Argument construction, claim-evidence chains, logical flow, counter-argument handling; Plan mode argument stress test | Phase 3 / Plan Step 3 |
 | 5 | `draft_writer_agent` | Section-by-section full draft writing, discipline register adjustment, word count tracking | Phase 4 |
 | 6 | `citation_compliance_agent` | Citation format verification, reference list completeness, DOI checking | Phase 5a |
-| 7 | `abstract_bilingual_agent` | Bilingual abstract (zh-TW + EN), 5-7 keywords each | Phase 5b |
+| 7 | `abstract_bilingual_agent` | Bilingual abstract (zh-CN + EN), 5-7 keywords each | Phase 5b |
 | 8 | `peer_reviewer_agent` | Simulated double-blind review, five-dimension scoring, revision suggestions (max 2 rounds) | Phase 6 |
 | 9 | `formatter_agent` | Convert to LaTeX/DOCX (via Pandoc)/PDF/Markdown, journal formatting, cover letter, citation format conversion (APA 7 / Chicago / MLA / IEEE / Vancouver) | Phase 7 |
 | 10 | `socratic_mentor_agent` | Plan mode Socratic mentor: chapter-by-chapter guidance, convergence criteria (4 signals), question taxonomy (4 types), INSIGHT extraction | Plan Step 0-3 |
@@ -309,6 +309,82 @@ Socratic mode that guides users through paper planning one chapter at a time. Bu
 
 ---
 
+## Knowledge Base Integration (Optional, Phase 1)
+
+Before designing the literature search strategy, check the user's local knowledge
+bases. These provide grounded context — existing papers the user has curated, notes
+they have written, and keyword taxonomies they have established — that make the
+search strategy more targeted and prevent redundant work.
+
+### Source 1: Zotero Library (via `@zotero` plugin)
+
+Use the Zotero plugin's CLI helper to search the user's local library:
+
+```bash
+# Check readiness
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py status --json
+
+# Search by research keywords
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py search "<keywords>" --json
+
+# Browse relevant collections
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py collections
+
+# Read item notes and annotations
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py children <ITEM_KEY> --json
+
+# Full text retrieval (when needed for deeper understanding)
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py fulltext <ATTACHMENT_KEY> --out <file>
+```
+
+**Usage pattern in Phase 1:**
+1. Run `search` with the paper's primary keywords from the Paper Configuration Record
+2. If matching papers found, read their `note` fields for the user's annotations
+3. Incorporate relevant papers into the annotated bibliography, marked `[USER-ZOTERO]`
+4. Use Zotero tags for concept expansion and related-term discovery
+5. Export relevant items as BibTeX for the paper's reference list:
+   `python3 <zotero-plugin>/skills/zotero/scripts/zotero.py export-bibtex --out references.bib`
+
+**If Zotero is unavailable** (status check fails or plugin not installed), skip silently.
+Do NOT ask the user to start Zotero or install the plugin.
+
+### Source 2: Obsidian Research Notes (via pathmap)
+
+Path: `obsidian/03-科研笔记/` (resolved via `pathmap.conf` to the platform-specific
+Obsidian vault path — never hardcode absolute paths)
+
+Scan these subdirectories for existing research context:
+
+| Subdirectory | Content | How to use |
+|-------------|---------|------------|
+| `文献/` | Literature notes, topic index, method index | Read `研究主题索引.md` and `研究方法索引.md` for established research themes |
+| `汇总文档/` | Research summaries, policy docs, paper ideas | Scan for research ideas and paper concepts related to the paper topic |
+| `小论文——*/` | Ongoing paper drafts and notes | Check for in-progress work that overlaps with the current paper |
+| Root files | `研究关键词体系.md`, `论文搜索关键词*.md` | Use as keyword taxonomy reference for search term expansion |
+
+**Usage pattern in Phase 1:**
+1. Read `文献/研究主题索引.md` for the user's established research themes
+2. Read `论文搜索关键词*.md` for the user's keyword taxonomy — use these to
+   refine the Boolean search strategy and avoid reinventing keyword lists
+3. Scan `汇总文档/` for notes related to the paper topic from the PCR
+4. If relevant notes exist, reference them as `[USER-NOTES]` in the bibliography
+
+**If Obsidian vault is not accessible** (pathmap path does not exist), skip silently.
+Do NOT ask the user about vault location.
+
+### Priority Rule
+
+When building the annotated bibliography, prefer sources in this order:
+1. **Zotero papers with user annotations** — highest signal, already curated by the user
+2. **Obsidian research notes** — user's own synthesis and thinking
+3. **External search results** — new sources from literature-search or other databases
+
+Mark local sources with `[USER-ZOTERO]` or `[USER-NOTES]` prefix in the annotated
+bibliography so downstream agents (structure_architect, argument_builder, draft_writer)
+can distinguish them from externally searched sources.
+
+---
+
 ## Handoff Protocol: deep-research -> academic-paper
 
 `intake_agent` automatically detects deep-research materials (RQ Brief / Bibliography / Synthesis / INSIGHT Collection) and skips redundant steps. See `deep-research/WORKFLOW.md` Handoff Protocol for the complete handoff material format.
@@ -362,6 +438,13 @@ See `agents/intake_agent.md` for the complete field definitions of the Phase 0 c
 
 **Examples** (9 files in `examples/`): `imrad_hei_example`, `literature_review_example`, `plan_mode_guided_writing`, `chinese_paper_example`, `revision_mode_example`, `revision_recovery_example`, `clinical_citation_verification_checklist`, `clinical_epistemic_status_example`, `version_family_reconciliation_example`.
 
+
+**Section Fragments** (8 files in `references/section-fragments/`): `introduction`, `literature-review`, `methodology`, `results`, `discussion`, `conclusion`, `abstract`, `title`. Per-section writing guidance with paragraph movement, drafting rules, failure modes, and diagnostics. Loaded on-demand by `draft_writer_agent` and `socratic_mentor_agent` during writing.
+
+**Paper Type Chains** (6 files in `references/paper-type-chains/`): `imrad`, `literature-review`, `theoretical`, `case-study`, `policy-brief`, `conference`. Per-paper-type argument chains and recommended drafting order. Loaded on-demand based on Paper Configuration Record's `paper_type` field.
+
+**Section Writing Router** (`references/section_writing_router.md`): Routing index for the section fragment system. Contains the Paper Type axis routing table, Section axis routing table, and the 3-step loading protocol used by all agents.
+
 ---
 
 ## Anti-Patterns
@@ -391,10 +474,10 @@ Explicit prohibitions to prevent common failure modes:
 5. **Word count compliance** — within +/-10% of target
 
 ### Bilingual Abstract Quality
-6. **Independent writing** — zh-TW and EN abstracts are independently composed, NOT mechanical translations
+6. **Independent writing** — zh-CN and EN abstracts are independently composed, NOT mechanical translations
 7. **Structural alignment** — both abstracts cover the same key points in the same order
 8. **Keywords** — 5-7 per language, reflecting the paper's core concepts
-9. **Word count** — EN: 150-300 words; zh-TW: 300-500 characters
+9. **Word count** — EN: 150-300 words; zh-CN: 300-500 characters
 
 ### Citation Quality
 10. **Format compliance** — 100% adherence to selected citation style

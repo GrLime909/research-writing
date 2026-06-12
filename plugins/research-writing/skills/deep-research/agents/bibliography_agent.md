@@ -35,6 +35,28 @@ If downstream work is needed (synthesis, drafting, review), return control to th
 
 ## Search Strategy Framework
 
+### Pre-Step: Knowledge Base Pre-Read (before external search)
+
+Before defining search parameters, check the user's local knowledge bases.
+This step is **non-blocking** — if either source is unavailable, skip it silently.
+
+**Zotero (via `@zotero` plugin):**
+1. Run `python3 <zotero-plugin>/skills/zotero/scripts/zotero.py status --json`
+2. If available, search with the RQ keywords: `search "<keywords>" --json`
+3. Read notes (`children <KEY> --json`) for papers that match the research topic
+4. Collect: item keys, titles, user annotations, tags — these become seed references
+
+**Obsidian (via pathmap `obsidian/03-科研笔记/`):**
+1. Read `文献/研究主题索引.md` — established research themes
+2. Read `论文搜索关键词*.md` — user's keyword taxonomy (use to refine KEYWORDS below)
+3. Scan `汇总文档/` for notes related to the current RQ
+4. Collect: relevant note titles, key concepts, established terminology
+
+**Output of Pre-Step:** A list of `[USER-ZOTERO]` and `[USER-NOTES]` seed references
+that feed into Step 1 (keyword refinement) and Step 3 (inclusion as pre-screened sources).
+
+---
+
 ### Step 1: Define Search Parameters
 
 ```

@@ -337,6 +337,79 @@ Optional post-research monitoring for new publications in the research area.
 
 ---
 
+## Knowledge Base Integration (Optional, Phase 2)
+
+Before starting external literature search, check the user's local knowledge bases.
+These provide grounded context — existing papers the user has curated, notes they
+have written, and keyword taxonomies they have established — that make the external
+search more focused and prevent redundant work.
+
+### Source 1: Zotero Library (via `@zotero` plugin)
+
+Use the Zotero plugin's CLI helper to search the user's local library:
+
+```bash
+# Check readiness
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py status --json
+
+# Search by research keywords
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py search "<keywords>" --json
+
+# Browse relevant collections
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py collections
+
+# Read item notes and annotations
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py children <ITEM_KEY> --json
+
+# Full text retrieval (when needed for deeper understanding)
+python3 <zotero-plugin>/skills/zotero/scripts/zotero.py fulltext <ATTACHMENT_KEY> --out <file>
+```
+
+**Usage pattern in Phase 2:**
+1. Run `search` with the research keywords from Phase 1 RQ Brief
+2. If matching papers found, read their `note` fields for the user's annotations
+3. Incorporate relevant papers into the annotated bibliography, marked `[USER-ZOTERO]`
+4. Use Zotero tags for concept expansion and related-term discovery
+
+**If Zotero is unavailable** (status check fails or plugin not installed), skip silently.
+Do NOT ask the user to start Zotero or install the plugin.
+
+### Source 2: Obsidian Research Notes (via pathmap)
+
+Path: `obsidian/03-科研笔记/` (resolved via `pathmap.conf` to the platform-specific
+Obsidian vault path — never hardcode absolute paths)
+
+Scan these subdirectories for existing research context:
+
+| Subdirectory | Content | How to use |
+|-------------|---------|------------|
+| `文献/` | Literature notes, topic index, method index | Read `研究主题索引.md` and `研究方法索引.md` for established research themes |
+| `汇总文档/` | Research summaries, policy docs, paper ideas | Scan for research ideas and paper concepts already captured |
+| `小论文——*/` | Ongoing paper drafts and notes | Check for in-progress work related to the current topic |
+| Root files | `研究关键词体系.md`, `论文搜索关键词*.md` | Use as keyword taxonomy reference for search term expansion |
+
+**Usage pattern in Phase 2:**
+1. Read `文献/研究主题索引.md` for the user's established research themes
+2. Read `论文搜索关键词*.md` for the user's keyword taxonomy — use these to
+   refine the Boolean search strategy
+3. Scan `汇总文档/` for notes related to the current research question
+4. If relevant notes exist, reference them as `[USER-NOTES]` in the bibliography
+
+**If Obsidian vault is not accessible** (pathmap path does not exist), skip silently.
+Do NOT ask the user about vault location.
+
+### Priority Rule
+
+When building the annotated bibliography, prefer sources in this order:
+1. **Zotero papers with user annotations** — highest signal, already curated by the user
+2. **Obsidian research notes** — user's own synthesis and thinking
+3. **External search results** — new sources from WOS/CNKI/arXiv/Semantic Scholar
+
+Mark local sources with `[USER-ZOTERO]` or `[USER-NOTES]` prefix in the annotated
+bibliography so downstream agents can distinguish them from externally searched sources.
+
+---
+
 ## Handoff Protocol: deep-research → academic-paper
 
 After research is complete, the following materials can be handed off to `academic-paper`:
