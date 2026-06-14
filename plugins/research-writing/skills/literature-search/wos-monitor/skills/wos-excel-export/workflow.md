@@ -1,4 +1,4 @@
-﻿---
+---
 name: wos-excel-export
 description: Export WOS search results to Excel with deduplication. Columns include title, authors, journal, abstract, pub date, and placeholder columns for Chinese translation.
 argument-hint: "[--output path.xlsx] [--translate]"

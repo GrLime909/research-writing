@@ -1,4 +1,4 @@
-﻿# Publisher Site Selectors & URL Patterns
+# Publisher Site Selectors & URL Patterns
 
 This file is loaded on-demand per publisher. Only read the sections for the publishers the user has journals for.
 

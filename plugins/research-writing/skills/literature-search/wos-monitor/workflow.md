@@ -1,4 +1,4 @@
-﻿---
+---
 name: wos-monitor
 description: >
   Web of Science journal monitor and literature search. Search WOS by keywords

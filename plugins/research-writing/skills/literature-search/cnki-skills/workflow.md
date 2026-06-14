@@ -1,4 +1,4 @@
-﻿# CNKI Skills for Codex
+# CNKI Skills for Codex
 
 基于 [cookjohn/cnki-skills](https://github.com/cookjohn/cnki-skills) 的 CNKI 知网文献工具包，已适配 Codex。
 

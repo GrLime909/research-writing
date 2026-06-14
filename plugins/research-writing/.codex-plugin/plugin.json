@@ -20,6 +20,7 @@
     "scientific-writing"
   ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Research Writing",
     "shortDescription": "Academic research writing suite — deep research, paper writing, peer review, and literature search",
