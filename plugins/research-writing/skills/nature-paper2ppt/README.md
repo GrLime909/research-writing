@@ -59,7 +59,7 @@ nature-paper2ppt/
     └── self-review.md           # self-review loop, severity, programmatic checks, verification
 ```
 
-The shared Terminology Ledger (`../../_shared/core/terminology-ledger.md`) is loaded on every job so technical terms stay consistent across slides.
+The shared Terminology Ledger (`../_shared/core/terminology-ledger.md`) is loaded on every job so technical terms stay consistent across slides.
 
 ## When to use
 
