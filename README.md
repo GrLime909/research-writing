@@ -1,0 +1,1 @@
+参考 [github.com/Yuan1z0825/nature-skills](https://github.com/Yuan1z0825/nature-skills)、[https://github.com/Imbad0202/academic-research-skills-codex](https://github.com/Imbad0202/academic-research-skills-codex)、https://github.com/cookjohn/wos-skills、https://github.com/cheneternity/Zotero-Analytical-Workflow-Skills
