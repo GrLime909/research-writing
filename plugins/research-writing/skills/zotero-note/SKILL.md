@@ -19,6 +19,7 @@ description: 从 Zotero 文献生成 Obsidian 精读笔记。使用 54yyyu/zoter
 - 命令示例使用通用 shell 写法；在 Windows、macOS 或 Linux 上按当前终端直接执行同名命令即可，不要在技能中写死平台路径或特定终端。
 - 除非用户明确要求排查安装或配置问题，不要在每次任务开始前运行健康检查命令。
 - 若当前机器的语义搜索数据库 `Document count` 为 0 或报 Chroma/HNSW 错误，除非用户明确要求，不依赖 `search --mode semantic`。
+- 注意zotero中期刊条目的 其他(extra)条目，存放了我的记录，如论文总结或引发的一些启示，记得帮我也添加进生成的笔记当中
 
 ## 路径配置
 
