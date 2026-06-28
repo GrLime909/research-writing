@@ -23,7 +23,7 @@ description: 从 Zotero 文献生成 Obsidian 精读笔记。使用 54yyyu/zoter
 
 ## 路径配置
 
-使用前请设置环境变量 `ZOTERO_SUITE_VAULT_ROOT` 指向 Obsidian vault 根目录。若该变量未设置，先询问用户，不要猜测 vault 路径。
+使用前请设置环境变量 `ZOTERO_SUITE_VAULT_ROOT` 指向 Obsidian vault 根目录。若该变量未设置，先询问用户，不要猜测 vault 路径,通常就是当前项目的根目录。
 
 | 变量              | 相对路径                                             | 说明                |
 | ----------------- | ---------------------------------------------------- | ------------------- |
@@ -196,10 +196,8 @@ zotero-cli get fulltext <item_key>
 写入路径：
 
 ```text
-<NOTES_ROOT>/<分类名称>/<论文标题>.md
+<NOTES_ROOT>/AICreate/<论文标题>.md
 ```
-
-分类名称优先从 Zotero Collections 字段获取；没有分类或分类不明确时使用用户指定分类。
 
 保存前必须检查：
 
@@ -233,7 +231,7 @@ zotero-cli get collection-items <collection_key> --detail full
 
 ### C.3 断点与过滤
 
-在目标输出目录中维护 `_ProcessLog_codex.md`。
+在目标输出目录中维护 `_ProcessLog.md`。
 
 - 若日志存在：解析 `成功` / `跳过` 的 Item Key 或标题。
 - 若日志不存在：创建日志，并记录启动时间、collection key、CLI 版本。
@@ -247,7 +245,7 @@ zotero-cli get collection-items <collection_key> --detail full
 1. 重置当前论文分析状态。
 2. 执行 Phase A 数据抓取。
 3. 执行 Phase B 分析写入。
-4. 每处理完一篇立即追加 `_ProcessLog_codex.md`：
+4. 每处理完一篇立即追加 `_ProcessLog.md`：
 
 ```markdown
 - [x] <ISO 时间> | 成功 | <ItemKey> | <标题>
@@ -265,7 +263,7 @@ zotero-cli get collection-items <collection_key> --detail full
 本轮总计发现未处理文献 [X] 篇。
 新增成功：[N] 篇
 失败/待确认：[M] 篇
-进度已同步至 _ProcessLog_codex.md，下次执行将自动跳过已成功条目。
+进度已同步至 _ProcessLog.md，下次执行将自动跳过已成功条目。
 ```
 
 ## Phase D: BibTeX 导出
@@ -279,13 +277,13 @@ zotero-cli get bibtex <item_key>
 分类导出时，先用 `zotero-cli get collection-items <collection_key> --detail full` 获取主文献 Item Key，再逐篇执行 `zotero-cli get bibtex <item_key>`，合并写入：
 
 ```text
-<NOTES_ROOT>/<分类名称>/references_codex.bib
+<NOTES_ROOT>/AICreate/references.bib
 ```
 
-写入前如果已有 `references.bib` 或 `references_codex.bib`，必须先备份为：
+写入前如果已有 `references.bib` 或 `references.bib`，必须先备份为：
 
 ```text
-references_codex_backup_YYYYMMDD.bib
+references_backup_YYYYMMDD.bib
 ```
 
 ## 常见问题
@@ -304,6 +302,6 @@ references_codex_backup_YYYYMMDD.bib
 ## 与其他技能集成
 
 ```text
-zotero-note + academic-paper -> 在 academic-paper Phase 1 中引用 <NOTES_ROOT>/<分类>/references_codex.bib
+zotero-note + academic-paper -> 在 academic-paper Phase 1 中引用 <NOTES_ROOT>/AICreate/references.bib
 zotero-note + obsidian-cli   -> 通过 Obsidian CLI 刷新 vault 内 Dataview 索引
 ```
