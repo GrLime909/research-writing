@@ -196,13 +196,14 @@ zotero-cli get fulltext <item_key>
 写入路径：
 
 ```text
-<NOTES_ROOT>/AICreate/<论文标题>.md
+<NOTES_ROOT>/AICreate/<title>.md
 ```
 
 保存前必须检查：
 
 1. 是否有未闭合的 `$` 符号。
 2. 是否包含可用的 Zotero item 链接或 PDF 链接。
+3. title是否与文章的<title>相同
 
 ## Phase C: 批量分类处理
 
