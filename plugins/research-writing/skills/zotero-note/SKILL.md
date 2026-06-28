@@ -206,12 +206,6 @@ zotero-cli get fulltext <item_key>
 1. 是否有未闭合的 `$` 符号。
 2. 是否包含可用的 Zotero item 链接或 PDF 链接。
 
-若本次写入产生新论文笔记，而不是覆盖旧文件，立即刷新 `<INDEX_ROOT>` 下 4 个 Dataview 索引页：
-
-1. `文献索引.md`
-2. `研究主题索引.md`
-3. `研究方法索引.md`
-
 ## Phase C: 批量分类处理
 
 ### C.1 定位分类
