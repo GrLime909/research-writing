@@ -2,51 +2,45 @@
 name: zotero-note
 description: 从 Zotero 文献生成 Obsidian 精读笔记。使用 54yyyu/zotero-mcp 的 zotero-cli 读取本地 Zotero 库，支持单篇精读、批量分类处理、frontmatter 提取、Dataview 索引刷新与 BibTeX 导出。
 ---
-
 # Zotero Note
 
 ## 工具接口
 
 本技能使用 [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) 安装出的终端命令，不再使用旧版 `zotero.py` 适配器。
 
-| 变量 | 命令 | 用途 |
-|------|------|------|
+| 变量           | 命令           | 用途                                                                |
+| -------------- | -------------- | ------------------------------------------------------------------- |
 | `ZOTERO_CLI` | `zotero-cli` | 搜索、读取 metadata、children、annotations、notes、fulltext、BibTeX |
-| `ZOTERO_MCP` | `zotero-mcp` | 仅在排查问题时检查版本、配置与语义数据库状态 |
+| `ZOTERO_MCP` | `zotero-mcp` | 仅在排查问题时检查版本、配置与语义数据库状态                        |
 
 默认前提：
 
 - `zotero-cli` 已安装并配置完成。
-- 仅使用 `ZOTERO_LOCAL=true` 的本地 Zotero 库模式。
 - 命令示例使用通用 shell 写法；在 Windows、macOS 或 Linux 上按当前终端直接执行同名命令即可，不要在技能中写死平台路径或特定终端。
 - 除非用户明确要求排查安装或配置问题，不要在每次任务开始前运行健康检查命令。
-- 若发现当前配置不是 `ZOTERO_LOCAL=true`，停止 Zotero 读取任务并提示用户切回本地库模式；不要改用 Zotero Web API。
 - 若当前机器的语义搜索数据库 `Document count` 为 0 或报 Chroma/HNSW 错误，除非用户明确要求，不依赖 `search --mode semantic`。
 
 ## 路径配置
 
 使用前请设置环境变量 `ZOTERO_SUITE_VAULT_ROOT` 指向 Obsidian vault 根目录。若该变量未设置，先询问用户，不要猜测 vault 路径。
 
-| 变量 | 相对路径 | 说明 |
-|------|----------|------|
-| `NOTES_ROOT` | `<VAULT_ROOT>/03-科研笔记/文献笔记` | 笔记输出目录 |
-| `INDEX_ROOT` | `<VAULT_ROOT>/03-科研笔记` | Dataview 索引页目录 |
-| `TEMPLATE_PATH` | `<VAULT_ROOT>/08-Assets/Templates/论文精读模板.md` | 精读模板 |
+| 变量              | 相对路径                                             | 说明                |
+| ----------------- | ---------------------------------------------------- | ------------------- |
+| `NOTES_ROOT`    | `<VAULT_ROOT>/03-科研笔记/文献/文献笔记`                | 笔记输出目录        |
+| `INDEX_ROOT`    | `<VAULT_ROOT>/03-科研笔记`                         | Dataview 索引页目录 |
+| `TEMPLATE_PATH` | `<VAULT_ROOT>/08-Assets/Templates/论文精读模板.md` | 精读模板            |
 
 文件规则：
 
-- AI 生成的新笔记文件名必须添加 `_codex`，例如 `<论文标题>_codex.md`。
-- 覆盖或修改既有笔记前必须先备份，备份文件名添加 `_codex_backup_YYYYMMDD`。
-- 绝对禁止操作任何 `09-Knowledge/` 目录。
 - 批量运行产生的临时文件应放在系统临时目录；任务结束后删除不必要的中间文件。
 
 ## 模式选择
 
-| 用户意图 | 模式 | 执行阶段 |
-|---------|------|---------|
-| “精读这篇论文” / 提供 Item Key 或标题 | 单篇处理 | Phase A -> Phase B |
-| “处理这个分类” / 提供 Zotero 分类名 | 批量处理 | Phase C（内部循环 A -> B） |
-| “导出参考文献” | BibTeX 导出 | Phase D |
+| 用户意图                                | 模式        | 执行阶段                   |
+| --------------------------------------- | ----------- | -------------------------- |
+| “精读这篇论文” / 提供 Item Key 或标题 | 单篇处理    | Phase A -> Phase B         |
+| “处理这个分类” / 提供 Zotero 分类名   | 批量处理    | Phase C（内部循环 A -> B） |
+| “导出参考文献”                        | BibTeX 导出 | Phase D                    |
 
 ## Phase A: 数据抓取
 
@@ -54,12 +48,12 @@ description: 从 Zotero 文献生成 Obsidian 精读笔记。使用 54yyyu/zoter
 
 优先使用用户给出的 Item Key；没有 Item Key 时再搜索标题、作者或年份。
 
-| 已知信息 | CLI 命令 |
-|---------|---------|
-| Item Key | 直接使用，无需查找 |
-| 标题 | `zotero-cli search "<title>" --limit 10` |
-| 作者+年份 | `zotero-cli search "<author> <year>" --limit 10` |
-| Citekey | `zotero-cli search --mode citekey "<citekey>" --limit 10` |
+| 已知信息  | CLI 命令                                                    |
+| --------- | ----------------------------------------------------------- |
+| Item Key  | 直接使用，无需查找                                          |
+| 标题      | `zotero-cli search "<title>" --limit 10`                  |
+| 作者+年份 | `zotero-cli search "<author> <year>" --limit 10`          |
+| Citekey   | `zotero-cli search --mode citekey "<citekey>" --limit 10` |
 
 搜索返回多个候选时，按标题、作者、年份人工比对；仍不确定时让用户确认，不要自行选择。
 
@@ -99,12 +93,12 @@ zotero-cli get fulltext <item_key>
 
 解析规则：
 
-| 来源 | 提取内容 | 用途 |
-|------|----------|------|
-| `get children` | attachment、note、PDF 子项信息 | 定位 PDF 和附属笔记 |
-| `annotations list` | 高亮、下划线、批注、页码、PDF 链接 | 原文证据与引用 |
-| `notes list --full` | Zotero 独立笔记全文 | 补充阅读记录 |
-| `get fulltext` | OCR/全文索引文本 | 批注不足时兜底 |
+| 来源                  | 提取内容                           | 用途                |
+| --------------------- | ---------------------------------- | ------------------- |
+| `get children`      | attachment、note、PDF 子项信息     | 定位 PDF 和附属笔记 |
+| `annotations list`  | 高亮、下划线、批注、页码、PDF 链接 | 原文证据与引用      |
+| `notes list --full` | Zotero 独立笔记全文                | 补充阅读记录        |
+| `get fulltext`      | OCR/全文索引文本                   | 批注不足时兜底      |
 
 `get fulltext` 可能因全文过长返回 “Response size” 警告或非零退出码。遇到这种情况时，不要改用语义搜索；应先使用 metadata、annotations、notes 和可见 fulltext 片段完成笔记，并在需要原文细节的位置标注“全文过长，需分段核对 PDF”。
 
@@ -151,21 +145,20 @@ zotero-cli get fulltext <item_key>
 
 ### B.1 Frontmatter 属性提取
 
-在生成 Frontmatter 时，必须深度提炼，严禁直接大段复制摘要。每个字段必须严格遵守以下定义，且长度限制在一句话（10-30 字）以内：
+在生成 Frontmatter 时，必须深度提炼，严禁直接大段复制摘要。每个字段必须严格遵守模板中的定义，以下是部分字段额外附加的说明：
 
-- `theme`（研究主题）：一句话概括核心研究问题。正确示例：探讨城市创新空间生态位适宜性的评价指标与空间格局。
 - `study_area`（研究区/样本）：严格依据标题和摘要提取真实地名或样本范围，绝不能自行脑补常见城市。
 - `data_source`（数据来源）：仅提取数据提供方、数据库名称或时间跨度，绝不能包含作者信息或摘要前言。
 - `methodology`（研究方法）：必须具体到模型名称或分析工具，严禁与 `theme` 字段重复。
 - `core_variable`（核心变量/指标）：提取具体自变量、因变量或评价维度，严禁堆砌 Keywords。
-- `key_finding`（核心发现）：用最精炼的语言总结最重要的结论，去掉“结果表明”等废话。
+- `key_finding`（核心发现）：总结最重要的结论，去掉“结果表明”等废话。
 - `relevance`（研究启发）：说明该文的具体闪光点，拒绝“可用于补充文献脉络”这类空泛表述。
 
 强制校验：
 
 - 检查 `data_source` 是否混入“摘要：”“作者：”、邮编、邮箱、基金号等无效字符；发现则重写。
 - 检查 `study_area` 是否与标题、摘要中的地名冲突；发现则重写。
-- Frontmatter 必填概括字段必须为简体中文。
+- Frontmatter 必填概括字段，除标题与摘要外必须为简体中文。
 
 ### B.2 模板套用与数学公式处理
 
@@ -202,25 +195,21 @@ zotero-cli get fulltext <item_key>
 写入路径：
 
 ```text
-<NOTES_ROOT>/<分类名称>/<论文标题>_codex.md
+<NOTES_ROOT>/<分类名称>/<论文标题>.md
 ```
 
 分类名称优先从 Zotero Collections 字段获取；没有分类或分类不明确时使用用户指定分类。
 
 保存前必须检查：
 
-1. Frontmatter 必填概括字段是否为简体中文。
-2. 是否有未闭合的 `$` 符号。
-3. 是否包含可用的 Zotero item 链接或 PDF 链接。
-4. 文件名是否包含 `_codex`。
-5. 目标路径是否不在 `09-Knowledge/` 下。
+1. 是否有未闭合的 `$` 符号。
+2. 是否包含可用的 Zotero item 链接或 PDF 链接。
 
 若本次写入产生新论文笔记，而不是覆盖旧文件，立即刷新 `<INDEX_ROOT>` 下 4 个 Dataview 索引页：
 
 1. `文献索引.md`
 2. `研究主题索引.md`
 3. `研究方法索引.md`
-4. `字段补全检查.md`
 
 ## Phase C: 批量分类处理
 
@@ -308,13 +297,13 @@ references_codex_backup_YYYYMMDD.bib
 
 ## 常见问题
 
-| 症状 | 处理 |
-|------|------|
-| `zotero-cli config` 显示非本地模式 | 停止任务，提示用户切回 `ZOTERO_LOCAL=true`；不要自行改配置，也不要改用 Web API |
-| `zotero-cli library list` 读不到库 | 提示用户确认 Zotero 数据路径和本地库配置 |
-| 语义搜索报 Chroma/HNSW 错误 | 不使用 `search --mode semantic`，改用标题、作者、collection 检索 |
-| 批注为空 | 使用 `get fulltext` 兜底，并在 Raw_Data_Buffer 标注来源 |
-| collection 名称不唯一 | 停止并让用户确认 collection key |
+| 症状                                 | 处理                                                                            |
+| ------------------------------------ | ------------------------------------------------------------------------------- |
+| `zotero-cli config` 显示非本地模式 | 停止任务，提示用户切回`ZOTERO_LOCAL=true`；不要自行改配置，也不要改用 Web API |
+| `zotero-cli library list` 读不到库 | 提示用户确认 Zotero 数据路径和本地库配置                                        |
+| 语义搜索报 Chroma/HNSW 错误          | 不使用`search --mode semantic`，改用标题、作者、collection 检索               |
+| 批注为空                             | 使用`get fulltext` 兜底，并在 Raw_Data_Buffer 标注来源                        |
+| collection 名称不唯一                | 停止并让用户确认 collection key                                                 |
 
 ## 与其他技能集成
 
