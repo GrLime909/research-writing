@@ -27,7 +27,7 @@ description: 从 Zotero 文献生成 Obsidian 精读笔记。使用 54yyyu/zoter
 
 | 变量              | 相对路径                                             | 说明                |
 | ----------------- | ---------------------------------------------------- | ------------------- |
-| `NOTES_ROOT`    | `<VAULT_ROOT>/03-科研笔记/文献/文献笔记`                | 笔记输出目录        |
+| `NOTES_ROOT`    | `<VAULT_ROOT>/03-科研笔记/文献/文献笔记`           | 笔记输出目录        |
 | `INDEX_ROOT`    | `<VAULT_ROOT>/03-科研笔记`                         | Dataview 索引页目录 |
 | `TEMPLATE_PATH` | `<VAULT_ROOT>/08-Assets/Templates/论文精读模板.md` | 精读模板            |
 
@@ -228,7 +228,7 @@ zotero-cli get collection-items <collection_key> --detail full
 仅处理主文献条目，跳过 attachment、note 等子项。目标输出目录为：
 
 ```text
-<NOTES_ROOT>/<分类名称>/
+<NOTES_ROOT>/AICreate
 ```
 
 ### C.3 断点与过滤
@@ -258,8 +258,6 @@ zotero-cli get collection-items <collection_key> --detail full
 ```markdown
 - [ ] <ISO 时间> | 失败 | <ItemKey> | <标题> | <原因>
 ```
-
-5. 若文件是首次创建，刷新 4 个 Dataview 索引页。
 
 ### C.5 输出执行报告
 
@@ -295,6 +293,9 @@ references_codex_backup_YYYYMMDD.bib
 | 症状                                 | 处理                                                                            |
 | ------------------------------------ | ------------------------------------------------------------------------------- |
 | `zotero-cli config` 显示非本地模式 | 停止任务，提示用户切回`ZOTERO_LOCAL=true`；不要自行改配置，也不要改用 Web API |
+| 不按照预期执行                | 严格按照skill要求和模板来生成笔记文件                                                 |
+| 文件的theme不准确                | 需要与1.1 🌱总结中的内容相同，只是不需要贡献列表的内容                                                 |
+| 文件标题不确定                | 最终生成文件的文件名与文章的 {{title}} 一致                                                 |
 | `zotero-cli library list` 读不到库 | 提示用户确认 Zotero 数据路径和本地库配置                                        |
 | 语义搜索报 Chroma/HNSW 错误          | 不使用`search --mode semantic`，改用标题、作者、collection 检索               |
 | 批注为空                             | 使用`get fulltext` 兜底，并在 Raw_Data_Buffer 标注来源                        |
