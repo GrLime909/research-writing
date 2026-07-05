@@ -1,0 +1,4 @@
+interface:
+  display_name: "Literature Search Playwright"
+  short_description: "WOS and CNKI search through playwright-cli"
+  default_prompt: "Use $literature-search-playwright to search WOS or CNKI literature with playwright-cli."
