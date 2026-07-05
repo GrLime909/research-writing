@@ -7,9 +7,17 @@ Codex loads this at runtime when executing WOS searches.
 
 ## Browser Setup
 
-**Chrome (via Chrome CDP):**
-The Chrome plugin provides CDP at http://127.0.0.1:9222 by default.
-No separate Chrome launch needed.
+**Chrome (via playwright-cli):**
+Use a persistent or attached Playwright browser session:
+
+```bash
+playwright-cli open --browser=chrome --persistent
+# or, when using the Playwright extension:
+playwright-cli attach --extension=chrome
+```
+
+The user must complete institutional WOS access in that session before API or
+DOM extraction commands run.
 
 **Firefox** (alternative for from-scratch mode):
 ```bash
@@ -167,7 +175,7 @@ Click the title link from the results list to open. Wait for:
 
 ---
 
-## URL Mode: Chrome Plugin CDP Interaction Flow
+## URL Mode: Playwright CLI Interaction Flow
 
 ```
 1. Navigate to user''s pre-filtered WOS summary URL

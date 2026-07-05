@@ -6,7 +6,7 @@ Session strategy: deterministic sessionID derived from content hash.
 - 409 = SESSION_EXISTS = already saved (idempotent, treat as success)
 
 Input: JSON from stdin or file argument. Accepts either:
-1. Raw WoS API record format (from evaluate_script)
+1. Raw WoS API record format (from playwright-cli eval)
 2. Pre-built Zotero item format (itemType present)
 3. Wrapper with "items" array (direct saveItems format)
 """

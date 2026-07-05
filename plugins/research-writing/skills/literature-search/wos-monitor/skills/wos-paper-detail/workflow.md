@@ -23,10 +23,7 @@ Extract the WoS ID if a full URL is provided.
 ### Step 2: Navigate
 
 ```
-navigate_page({
-  url: "{BASE_URL}/wos/woscc/full-record/{WOS_ID}",
-  initScript: "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-})
+playwright-cli goto "{BASE_URL}/wos/woscc/full-record/{WOS_ID}"
 ```
 
 ### Step 3: Extract Full Record Data
@@ -213,7 +210,7 @@ Offer next actions:
 
 ## Notes
 
-- This skill uses 2 tool calls: `navigate_page` + `evaluate_script`
+- This skill uses 2 tool calls: `playwright-cli goto` + `playwright-cli --raw eval`
 - **IMPORTANT**: Full record page uses different citation selectors than search results page:
   - Search results: `a[data-ta="stat-number-citation-related-count"]`
   - Full record: `a[data-ta*="times-cited-count-link-WOSCC"]`

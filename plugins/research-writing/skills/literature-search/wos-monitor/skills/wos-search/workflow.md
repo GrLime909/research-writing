@@ -24,7 +24,7 @@ keyword rows connected by `AND`.
 If `wos-journals.txt` is empty or missing, skip the SO filter and search all
 journals (the user must be warned).
 
-Search Web of Science via internal API. Supports edition filtering, sorting, and multiple databases — all in a single `evaluate_script` call.
+Search Web of Science via internal API. Supports edition filtering, sorting, and multiple databases — all in a single `playwright-cli --raw eval` call.
 
 ## Important: Browser Prerequisite
 
@@ -118,11 +118,11 @@ Multiple editions can be combined: `["WOS.SCI", "WOS.SSCI"]`
 - `count`: number of records to retrieve (default 10, max 50).
 - `sort`: default `relevance`.
 
-### Step 2: Execute API Call via evaluate_script
+### Step 2: Execute API Call via playwright-cli --raw eval
 
 **This is the only tool call needed — 1 call total.**
 
-If the browser was previously on a non-WoS page (e.g., after following a publisher link), SID will be lost. In that case, **first navigate back to any WoS page** (`navigate_page` to `https://www.webofscience.com/wos/woscc/basic-search`) to re-establish the session, then run the API call. This adds 1 extra tool call (2 total).
+If the browser was previously on a non-WoS page (e.g., after following a publisher link), SID will be lost. In that case, **first navigate back to any WoS page** (`playwright-cli goto` to `https://www.webofscience.com/wos/woscc/basic-search`) to re-establish the session, then run the API call. This adds 1 extra tool call (2 total).
 
 Alternatively, use the **URL-based fallback** (Step 2B below) which always works regardless of SID state.
 
@@ -226,13 +226,10 @@ Offer next actions:
 If API returns `no_session` (e.g., after navigating to an external publisher site), fall back to URL navigation:
 
 ```
-navigate_page({
-  url: "https://www.webofscience.com/wos/{db}/general-summary?queryJson={ENCODED_QUERY_JSON}",
-  initScript: "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-})
+playwright-cli goto "https://www.webofscience.com/wos/{db}/general-summary?queryJson={ENCODED_QUERY_JSON}"
 ```
 
-Then extract results via `evaluate_script` with DOM selectors (see `wos-parse-results` Mode B), or re-attempt the API call (SID will be re-established after the navigation).
+Then extract results via `playwright-cli --raw eval` with DOM selectors (see `wos-parse-results` Mode B), or re-attempt the API call (SID will be re-established after the navigation).
 
 **When to use**: After the browser visited an external site (publisher, DOI link, etc.) and `performance.getEntriesByType('resource')` no longer contains WoS SID entries.
 

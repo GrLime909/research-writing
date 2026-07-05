@@ -24,17 +24,17 @@ workflow_files:
 
 ## Anti-Detection
 
-- Every `navigate_page` call must include:
+- Every `playwright-cli goto` call must include:
   ```
   initScript: "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
   ```
-- Never use `wait_for` — always use `evaluate_script` with internal polling loops
-- Never use `take_screenshot` for data extraction — use `evaluate_script` for structured data
+- Avoid separate wait/snapshot loops for normal WOS loading; put polling inside `playwright-cli --raw eval`
+- Never use screenshots for data extraction; use `playwright-cli --raw eval` for structured data
 
 ## Workflow Patterns
 
 ### Basic Search Flow (API-based, 1 tool call for search)
-1. User provides search terms → `skills/wos-search/workflow.md` (API `fetch` via `evaluate_script`)
+1. User provides search terms → `skills/wos-search/workflow.md` (API `fetch` via `playwright-cli --raw eval`)
 2. Display results table with WoS IDs
 3. User picks a paper → `wos-paper-detail {WoS ID}` (navigate + DOM extract)
 4. User wants PDF → `wos-download {WoS ID}`
@@ -53,11 +53,11 @@ workflow_files:
 
 ## Operation Principles
 
-1. **API First, DOM Fallback** — Use `evaluate_script` with `fetch` to WoS internal API (`/api/wosnx/core/runQuerySearch`). Only fall back to URL navigation + DOM scraping when API is unavailable.
+1. **API First, DOM Fallback** — Run `playwright-cli --raw eval` with `fetch` to WoS internal API (`/api/wosnx/core/runQuerySearch`). Only fall back to URL navigation + DOM scraping when API is unavailable.
 2. **WoS Accession Number as Global Key** — `WOS:000779183600001` links search → detail → export → download
-3. **Minimum Tool Calls** — Search/navigate use **1 tool call** (API via `evaluate_script`). Detail/export use 2 calls (navigate + evaluate_script).
-4. **No wait_for** — Use `evaluate_script` with internal `for` loops for waiting
-5. **No take_screenshot for data** — Use `evaluate_script` to return structured JSON
+3. **Minimum Tool Calls** — Search/navigate use **1 tool call** (API via `playwright-cli --raw eval`). Detail/export use 2 calls (navigate + playwright-cli --raw eval).
+4. **Internal waits only** — run `playwright-cli --raw eval` with internal `for` loops for waiting
+5. **No screenshots for data** — run `playwright-cli --raw eval` to return structured JSON
 6. **SID from Performance Entries** — Extract session ID via `performance.getEntriesByType('resource')` for API calls
 
 ## API Reference

@@ -19,14 +19,14 @@ Check which databases index a journal and extract evaluation metrics from its CN
 ### 1. Navigate to the journal detail page
 
 **If URL provided:** Navigate directly.
-- Use `mcp__chrome-devtools__navigate_page` with the URL.
-- Use `mcp__chrome-devtools__wait_for` with text `["该刊被以下数据库收录"]` and timeout 15000.
+- Run `playwright-cli goto` with the URL.
+- Use `playwright-cli snapshot or playwright-cli --raw eval with polling` with text `["该刊被以下数据库收录"]` and timeout 15000.
 
 **If journal name provided:** Search first.
 - Navigate to `https://navi.cnki.net/knavi`
 - Search for the journal (same as cnki-journal-search steps 2-4)
 - Click the first matching journal title link
-- Use `mcp__chrome-devtools__list_pages` to find and select the new detail tab
+- Use `playwright-cli tab-list` to find and select the new detail tab
 - Wait for the detail page to load
 
 ### 2. Check for captcha
@@ -35,7 +35,7 @@ Take snapshot. If "拖动下方拼图完成验证" found, notify user.
 
 ### 3. Extract journal info via JavaScript
 
-Use `mcp__chrome-devtools__evaluate_script` with this function:
+Run `playwright-cli --raw eval` with this function:
 
 ```javascript
 () => {
@@ -144,7 +144,7 @@ The journal detail page (`navi.cnki.net/knavi/detail`) has:
 | Evaluation info       | Text patterns: "复合影响因子：", "综合影响因子：" |
 | Detailed indexing     | Expandable via "更多介绍" link              |
 | Stats tab             | "统计与评价" tab link                       |
-| Detail page opens in  | **New tab** — use list_pages + select_page  |
+| Detail page opens in  | **New tab** — use playwright-cli tab-list + playwright-cli tab-select  |
 
 ## Common Indexing Databases
 

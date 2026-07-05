@@ -27,9 +27,9 @@ Examples:
 
 If not already on a journal detail page (`navi.cnki.net/knavi/detail`):
 - Use `cnki-journal-search` to find the journal
-- Use `mcp__chrome-devtools__list_pages` + `mcp__chrome-devtools__select_page` to switch to the journal detail tab (opens in new tab)
+- Use `playwright-cli tab-list` + `playwright-cli tab-select` to switch to the journal detail tab (opens in new tab)
 
-### 2. Select issue + extract papers (single async evaluate_script)
+### 2. Select issue + extract papers (single async playwright-cli --raw eval)
 
 Replace `YEAR` and `ISSUE` with actual values (e.g., `"2025"`, `"No.01"`).
 The "刊期浏览" tab is the default active view — no need to click it.
@@ -115,9 +115,9 @@ If user requested download, or asks for "原版目录":
 
 1. Find the `link` with text "原版目录浏览" in the snapshot (class `btn-preview`)
 2. Click it — this opens a new tab with the reader page (`kns.cnki.net/reader/report`)
-3. Use `mcp__chrome-devtools__list_pages` to find the new reader tab
-4. Use `mcp__chrome-devtools__select_page` to switch to it
-5. Use `mcp__chrome-devtools__wait_for` with text `["下载"]`
+3. Use `playwright-cli tab-list` to find the new reader tab
+4. Use `playwright-cli tab-select` to switch to it
+5. Use `playwright-cli snapshot or playwright-cli --raw eval with polling` with text `["下载"]`
 6. Take snapshot — find the `link` with text "下载" (the download button in the reader toolbar)
 7. Click the download link — triggers PDF download via Chrome
 
@@ -133,7 +133,7 @@ After clicking, inform the user:
 
 ## Tool calls
 
-- Browse issue: 1 (evaluate_script only) — after navigating to journal page
+- Browse issue: 1 (playwright-cli --raw eval only) — after navigating to journal page
 - Download TOC: requires snapshot + click + tab switching (new tab)
 
 ## Verified selectors

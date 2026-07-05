@@ -18,11 +18,11 @@ User **must be logged in** to CNKI with download permissions.
 
 ### 1. Navigate (if URL provided)
 
-If URL provided: use `navigate_page` to go to the URL directly (no wait_for needed — Step 2 handles waiting).
+If URL provided: use `playwright-cli goto` to go to the URL directly. Step 2 handles waiting internally.
 
-**Important**: Always use `navigate_page` instead of clicking links on the search results page. Clicking opens a new tab and wastes 3 extra tool calls (`list_pages` + `select_page` + `take_snapshot`).
+**Important**: Always use `playwright-cli goto` instead of clicking links on the search results page. Clicking opens a new tab and wastes 3 extra tool calls (`playwright-cli tab-list` + `playwright-cli tab-select` + `playwright-cli snapshot`).
 
-### 2. Check status and download (single async evaluate_script)
+### 2. Check status and download (single async playwright-cli --raw eval)
 
 Replace `FORMAT` with `"pdf"` or `"caj"`:
 
@@ -85,7 +85,7 @@ Based on JS result:
 - `error: not_logged_in` → tell user to log in
 - `error: captcha` → tell user to solve captcha
 
-## Tool calls: 1–2 (navigate_page if URL + evaluate_script)
+## Tool calls: 1–2 (playwright-cli goto if URL + playwright-cli --raw eval)
 
 ## Verified selectors
 

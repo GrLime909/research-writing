@@ -16,9 +16,9 @@ $ARGUMENTS contains the search keyword(s) in Chinese or English.
 
 ### 1. Navigate
 
-Use `mcp__chrome-devtools__navigate_page` → `https://kns.cnki.net/kns8s/search`
+Run `playwright-cli goto` → `https://kns.cnki.net/kns8s/search`
 
-### 2. Search + extract results (single evaluate_script, NO wait_for)
+### 2. Search + extract results (single playwright-cli --raw eval, NO separate snapshot wait; use internal polling inside eval)
 
 Replace `YOUR_KEYWORDS` with actual search terms:
 
@@ -26,7 +26,7 @@ Replace `YOUR_KEYWORDS` with actual search terms:
 async () => {
   const query = "YOUR_KEYWORDS";
 
-  // Wait for search input (replaces wait_for)
+  // Wait for search input (replaces external waits)
   await new Promise((r, j) => {
     let n = 0;
     const c = () => { if (document.querySelector('input.search-input')) r(); else if (++n > 30) j('timeout'); else setTimeout(c, 500); };
@@ -102,7 +102,7 @@ Searched CNKI for "$ARGUMENTS": found {total} results (page {page}).
 
 ### 4. Follow-up: navigate to a paper
 
-When the user wants to open or download a specific paper, use `navigate_page` with the result's `href` URL directly — do NOT click the link (clicking opens a new tab and wastes 3 extra tool calls for tab management).
+When the user wants to open or download a specific paper, use `playwright-cli goto` with the result's `href` URL directly — do NOT click the link (clicking opens a new tab and wastes 3 extra tool calls for tab management).
 
 ## Captcha detection
 
@@ -130,4 +130,4 @@ Only return `error: 'captcha'` when `top >= 0` (actually visible to user).
 
 When user wants to save results to Zotero, use batch export directly from the results page — **do NOT navigate to each detail page**. The `exportId` in results equals the detail page's `#export-id`. Call `cnki-export` skill with batch mode (Step 1B). See cnki-export workflow.md for details.
 
-## Tool calls: 2 (navigate + evaluate_script)
+## Tool calls: 2 (navigate + playwright-cli --raw eval)

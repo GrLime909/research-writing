@@ -4,7 +4,7 @@ description: >
   Web of Science journal monitor and literature search. Search WOS by keywords
   within a pre-defined journal list (wos-journals.txt), extract metadata, browse
   results, view paper details, download PDFs, export to Zotero, and save to Excel.
-  Uses WOS internal API via Chrome CDP. Requires institutional WOS access via IP.
+  Uses WOS internal API via playwright-cli. Requires institutional WOS access via IP.
 ---
 
 # WOS Monitor — 外文 SCI/SSCI 期刊检索
@@ -55,7 +55,7 @@ Use `scripts/journal_monitor.py` for batch WOS API search + Excel export.
 
 ## Prerequisites
 
-- Chrome browser (manual IP-based WOS login)
+- `playwright-cli` browser session (manual IP-based WOS login)
 - Python 3 with `openpyxl` (`pip install openpyxl`)
 - Zotero desktop (optional, for export)
 

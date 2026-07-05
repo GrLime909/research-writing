@@ -19,7 +19,7 @@ The results URL follows the pattern:
 /wos/woscc/summary/{session-uuid}/{sort}/{page-number}
 ```
 
-Modify the page number in the URL and navigate. Then extract via `evaluate_script` with DOM selectors. Uses **2 tool calls**.
+Modify the page number in the URL and navigate. Then extract via `playwright-cli --raw eval` with DOM selectors. Uses **2 tool calls**.
 
 ### Approach B: API-based (preferred, 1 tool call)
 

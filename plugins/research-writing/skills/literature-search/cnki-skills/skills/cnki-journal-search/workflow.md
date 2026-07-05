@@ -14,11 +14,11 @@ argument-hint: "[journal name or ISSN or CN number]"
 
 ### 1. Navigate
 
-Use `mcp__chrome-devtools__navigate_page` → `https://navi.cnki.net/knavi`
+Run `playwright-cli goto` → `https://navi.cnki.net/knavi`
 
-### 2. Search + extract results (single evaluate_script, NO wait_for)
+### 2. Search + extract results (single playwright-cli --raw eval, NO separate snapshot wait; use internal polling inside eval)
 
-Use `mcp__chrome-devtools__evaluate_script`. Replace `QUERY_HERE` with actual search term:
+Run `playwright-cli --raw eval`. Replace `QUERY_HERE` with actual search term:
 
 ```javascript
 async () => {
@@ -103,7 +103,7 @@ async () => {
 
 ## Notes
 
-- Journal detail pages open in **new tab** — use `list_pages` + `select_page`
+- Journal detail pages open in **new tab** — use `playwright-cli tab-list` + `playwright-cli tab-select`
 - If only 1 journal result, can auto-navigate to detail page for `cnki-journal-index`
 - Search button selector: `input.researchbtn` (not generic `button`)
 
@@ -113,4 +113,4 @@ Check `#tcaptcha_transform_dy` element's `getBoundingClientRect().top >= 0`.
 Tencent captcha SDK preloads DOM at `top: -1000000px` (off-screen, not active).
 Only return `error: 'captcha'` when `top >= 0` (actually visible to user).
 
-## Tool calls: 2 (navigate + evaluate_script)
+## Tool calls: 2 (navigate + playwright-cli --raw eval)

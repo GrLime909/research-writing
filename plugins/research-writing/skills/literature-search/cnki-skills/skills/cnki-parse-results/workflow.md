@@ -16,13 +16,13 @@ The current Chrome page must be a CNKI search results page (URL contains `kns.cn
 
 ### 1. Verify we are on a results page
 
-Use `mcp__chrome-devtools__take_snapshot`. Verify the page contains "条结果". If not, inform the user that no search results page is currently open.
+Use `playwright-cli snapshot`. Verify the page contains "条结果". If not, inform the user that no search results page is currently open.
 
 Check for captcha ("拖动下方拼图完成验证") - if found, notify user to solve it manually.
 
 ### 2. Extract results via JavaScript
 
-Use `mcp__chrome-devtools__evaluate_script` with this function:
+Run `playwright-cli --raw eval` with this function:
 
 ```javascript
 () => {
@@ -84,7 +84,7 @@ CNKI search results ({totalCount} total, page {pageInfo}):
 
 ### 4. Fallback: snapshot-based parsing
 
-If JavaScript returns empty (DOM structure changed), use `mcp__chrome-devtools__take_snapshot` and parse the accessibility tree manually:
+If JavaScript returns empty (DOM structure changed), use `playwright-cli snapshot` and parse the accessibility tree manually:
 
 Look for the repeating pattern:
 - `checkbox` → `StaticText` (number) → `link` with URL containing `kcms2/article/abstract` (title) → `link`s with URL containing `kcms2/author/detail` (authors) → `link` with URL containing `navi.cnki.net/knavi/detail` (journal) → `StaticText` (date) → `StaticText` (database type)

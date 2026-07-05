@@ -6,7 +6,7 @@ argument-hint: "[next|previous|page N|sort by date|citations|downloads]"
 
 # CNKI Results Pagination and Sorting
 
-All operations use a single async `evaluate_script` — no snapshot or wait_for needed.
+All operations use a single async `playwright-cli --raw eval` with internal waiting; no separate snapshot wait is needed.
 
 ## Arguments
 
@@ -14,7 +14,7 @@ All operations use a single async `evaluate_script` — no snapshot or wait_for 
 - `next` / `previous` / `page N` — pagination
 - `sort by date` / `sort by citations` / `sort by downloads` / `sort by relevance` / `sort by comprehensive` — sorting
 
-## Pagination (single evaluate_script)
+## Pagination (single playwright-cli --raw eval)
 
 Replace `ACTION_HERE` with `"next"`, `"previous"`, or `"page 3"`:
 
@@ -66,7 +66,7 @@ async () => {
 }
 ```
 
-## Sorting (single evaluate_script)
+## Sorting (single playwright-cli --raw eval)
 
 Replace `SORT_HERE` with `"relevance"`, `"date"`, `"citations"`, `"downloads"`, or `"comprehensive"`:
 
@@ -117,7 +117,7 @@ async () => {
 > Navigated to page {page}. Total {total} results.
 > Results now sorted by {sortBy}.
 
-## Tool calls: 1 (evaluate_script only)
+## Tool calls: 1 (playwright-cli --raw eval only)
 
 ## Verified selectors
 

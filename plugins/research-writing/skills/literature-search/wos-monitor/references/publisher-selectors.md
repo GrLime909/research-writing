@@ -142,7 +142,7 @@ https://ieeexplore.ieee.org/search/searchresult.jsp?queryText=({url_encoded_keyw
 
 ## General Browser Automation Notes
 
-When simple HTTP GET returns incomplete or JS-rendered pages, fall back to browser automation via CDP (Chrome DevTools Protocol). Use the same approach as Paper Harbor:
+When simple HTTP GET returns incomplete or JS-rendered pages, fall back to browser automation via Playwright CLI. Use the same approach as Paper Harbor:
 
 1. Open a dedicated browser profile for each publisher (separate debugging ports recommended).
 2. The user must manually log in before automation starts.

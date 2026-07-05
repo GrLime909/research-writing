@@ -1,29 +1,18 @@
 ---
-name: literature-search
-description: >
-  Unified literature search for the Nature Paper Suite. Two primary engines:
-  Web of Science (via wos-monitor Chrome CDP) and CNKI (via cnki-skills
-  Chrome CDP). Searches pre-filtered journal lists with keyword matching,
-  time-range filtering, deduplication, and export to Excel. This is the
-  sole entry point for all literature searches — WOS and CNKI are internal
-  components, never called directly. Use when the user needs to search for
-  papers, find articles, monitor journals, or build a literature database.
-  Requires institutional WOS/CNKI access via IP.
-metadata:
-  version: "2.0.0"
-  primary_source: "Web of Science + CNKI"
-  language: "English + Simplified Chinese"
+name: literature-search-playwright
+description: Use when searching, browsing, exporting, or downloading WOS or CNKI literature through playwright-cli, especially for Web of Science, CNKI, journal monitoring, paper metadata extraction, Zotero/RIS export, or Excel literature databases.
 ---
 
-# Literature Search — Unified WOS + CNKI Entry Point
+# Literature Search Playwright — Unified WOS + CNKI Entry Point
 
-This is the **only** literature search entry point in the Nature Paper Suite.
-All literature queries, whether English or Chinese, are routed through this skill.
+This is the Playwright CLI variant of the `literature-search` skill. Route all
+WOS/CNKI literature queries through this skill when the user wants browser
+automation based on `playwright-cli`.
 
 Two internal engines, never called directly from outside:
 
 ```
-literature-search/
+literature-search-playwright/
 ├── SKILL.md                    ← this file (you are here)
 ├── wos-monitor/                ← WOS engine (8 sub-skills, 86 journals)
 │   ├── workflow.md              ← WOS engine overview + sub-skill index
@@ -44,47 +33,50 @@ literature-search/
     └── scripts/excel_manager.py
 ```
 
-**Requires**: institutional WOS and CNKI access via IP. Chrome browser with
-manual IP-based login completed.
+**Requires**: institutional WOS and CNKI access via IP. Use `playwright-cli`
+with a persistent or attached browser session where the user has completed
+manual IP/account login.
 
 ---
 
-## Chrome DevTools MCP Tool Mapping
+## Playwright CLI Conventions
 
-This skill is based on `cookjohn/wos-skills` and `cookjohn/cnki-skills`, which
-use Chrome DevTools MCP. Some WOS workflow files use short abstract tool names;
-map them to the actual MCP tools before execution:
+Use the `playwright-cli` skill/commands for all browser operations:
 
-| Workflow name | Chrome DevTools MCP tool |
-|---------------|--------------------------|
-| `list_pages` | `mcp__chrome-devtools__list_pages` |
-| `select_page` | `mcp__chrome-devtools__select_page` |
-| `new_page` | `mcp__chrome-devtools__new_page` |
-| `navigate_page` | `mcp__chrome-devtools__navigate_page` |
-| `evaluate_script` | `mcp__chrome-devtools__evaluate_script` |
-| `take_snapshot` | `mcp__chrome-devtools__take_snapshot` |
-| `wait_for` | `mcp__chrome-devtools__wait_for` |
-| `click` | `mcp__chrome-devtools__click` |
+| Operation | Command pattern |
+|-----------|-----------------|
+| Open browser/session | `playwright-cli open --browser=chrome --persistent` |
+| Open with profile | `playwright-cli open --browser=chrome --profile=/path/to/profile` |
+| Attach to extension browser | `playwright-cli attach --extension=chrome` |
+| Navigate | `playwright-cli goto <url>` |
+| Run page JavaScript | `playwright-cli --raw eval '<javascript>'` |
+| Inspect accessible page | `playwright-cli snapshot` |
+| Manage tabs | `playwright-cli tab-list`, `playwright-cli tab-select <index>`, `playwright-cli tab-new <url>` |
+| Save/restore login state | `playwright-cli state-save <file>`, `playwright-cli state-load <file>` |
 
-If Chrome DevTools MCP tools are not available in the current Codex session,
-stop and report that this Chrome-CDP skill cannot run in the current tool
-environment. Do not silently fall back to Codex web browsing for WOS/CNKI.
+For multi-line JavaScript from workflow files, either pass it directly to
+`playwright-cli --raw eval` with careful shell quoting, or place it in a
+temporary `.js` file and run `playwright-cli run-code --filename=<file>`.
+Delete temporary files after the operation unless they are useful artifacts.
+
+Do not attempt to solve WOS/CNKI login or slider captchas programmatically.
+Ask the user to complete those steps in the browser, then continue.
 
 ---
 
 ## Execution Routing (MANDATORY)
 
-This `SKILL.md` is the **only auto-discovered skill file** in literature-search.
+This `SKILL.md` is the **only auto-discovered skill file** in literature-search-playwright.
 All execution instructions live in `workflow.md` files that are **not**
 auto-discovered by Codex. **Before executing any operation, you MUST read
 exactly the workflow file(s) listed in the routing table below.** Do NOT
 read more files than needed, and do NOT improvise execution steps from
 memory — the workflow files contain the exact JS code, API endpoints,
-DOM selectors, and Chrome CDP calls required.
+DOM selectors, and playwright-cli commands required.
 
 ### WOS Routing Table
 
-All paths relative to `literature-search/`.
+All paths relative to `literature-search-playwright/`.
 
 | User intent | Read this file |
 |-------------|---------------|
@@ -104,7 +96,7 @@ Do NOT read `wos-monitor/workflow.md` unless you need the full engine overview.
 
 ### CNKI Routing Table
 
-All paths relative to `literature-search/`.
+All paths relative to `literature-search-playwright/`.
 
 | User intent | Read this file |
 |-------------|---------------|
@@ -127,7 +119,7 @@ Do NOT read `cnki-skills/workflow.md` unless you need the full engine overview.
 ### Rules
 
 1. **One intent → one file.** Read only the file(s) that match the current operation.
-2. **Read before execute.** Always read the workflow file before running any Chrome CDP call.
+2. **Read before execute.** Always read the workflow file before running any playwright-cli command.
 3. **Never improvise.** If you haven't read the workflow file, you don't know the correct selectors or API calls.
 4. **Compound operations.** A search-then-export workflow reads two files sequentially, not at once.
 
@@ -169,8 +161,8 @@ explicitly requested by the user.
 
 | Source | Engine | Journals | Access |
 |--------|--------|----------|--------|
-| Web of Science Core Collection | `wos-monitor/` | 86 journals (wos-journals.txt) | Chrome CDP, IP login |
-| CNKI (中国知网) | `cnki-skills/` | 124 journals (cnki-journals.txt) | Chrome CDP, IP login |
+| Web of Science Core Collection | `wos-monitor/` | 86 journals (wos-journals.txt) | playwright-cli, IP login |
+| CNKI (中国知网) | `cnki-skills/` | 124 journals (cnki-journals.txt) | playwright-cli, IP login |
 | arXiv (opt-in only) | Codex browsing | Preprints | Explicit: "search arXiv for ..." |
 | Google Scholar (opt-in only) | Codex browsing | Broad discovery | Explicit: "search Google Scholar for ..." |
 
@@ -400,7 +392,7 @@ Sub-skill routing is defined in the **CNKI Routing Table** above — always cons
 ### Workflow
 
 1. Determine intent → look up the **CNKI Routing Table** → read the matched workflow file
-2. Execute search via Chrome CDP (following the workflow file instructions)
+2. Execute search via playwright-cli (following the workflow file instructions)
 3. Parse results into structured data
 4. Deduplicate against existing Excel
 5. Export and report

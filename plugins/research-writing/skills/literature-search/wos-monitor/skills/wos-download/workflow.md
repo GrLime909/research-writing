@@ -23,10 +23,7 @@ Download PDF full text for a paper from Web of Science.
 If not already on the full record page:
 
 ```
-navigate_page({
-  url: "{BASE_URL}/wos/woscc/full-record/{WOS_ID}",
-  initScript: "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-})
+playwright-cli goto "{BASE_URL}/wos/woscc/full-record/{WOS_ID}"
 ```
 
 ### Step 2: Find Full Text Links
@@ -59,10 +56,7 @@ async () => {
 Navigate to the publisher link:
 
 ```
-navigate_page({
-  url: "{CHOSEN_LINK}",
-  initScript: "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-})
+playwright-cli goto "{CHOSEN_LINK}"
 ```
 
 ### Step 4: Check PDF Status & Attempt Download
@@ -124,12 +118,12 @@ async () => {
 
 ### Clicking Publisher's Download PDF Button
 
-If `pdf_links_found`, use `take_snapshot` to find the Download PDF button, then `click` it:
+If `pdf_links_found`, use `playwright-cli snapshot` to find the Download PDF button, then `click` it:
 
 ```
-1. take_snapshot → find "Download PDF" link uid
+1. playwright-cli snapshot → find "Download PDF" link uid
 2. click(uid)
-3. evaluate_script → wait 5s, check if PDF loaded (contentType === 'application/pdf')
+3. playwright-cli --raw eval → wait 5s, check if PDF loaded (contentType === 'application/pdf')
 4. If PDF loaded → trigger download with a.download
 ```
 

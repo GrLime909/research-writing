@@ -88,8 +88,8 @@ Browser must be on a WoS results page (`/summary/...`) or full record page (`/fu
 
 ### Steps
 
-1. `take_snapshot` → find Export button (`button` with `haspopup="menu"` containing "Export") → `click`
-2. `take_snapshot` → find format menuitem → `click`
+1. `playwright-cli snapshot` → find Export button (`button` with `haspopup="menu"` containing "Export") → `click`
+2. `playwright-cli snapshot` → find format menuitem → `click`
 3. Handle export dialog (record range, content options) → click download button
 
 ### Notes on UI Export

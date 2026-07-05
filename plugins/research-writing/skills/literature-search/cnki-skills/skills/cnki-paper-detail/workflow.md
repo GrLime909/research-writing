@@ -17,18 +17,18 @@ Extract complete metadata from a CNKI paper detail page.
 ### 1. Navigate to the paper page (if URL provided)
 
 If `$ARGUMENTS` contains a URL:
-- Use `mcp__chrome-devtools__navigate_page` with the URL.
-- Use `mcp__chrome-devtools__wait_for` with text `["摘要"]` and timeout 15000.
+- Run `playwright-cli goto` with the URL.
+- Use `playwright-cli snapshot or playwright-cli --raw eval with polling` with text `["摘要"]` and timeout 15000.
 
 ### 2. Check for captcha
 
-Use `mcp__chrome-devtools__take_snapshot`. If "拖动下方拼图完成验证" found, notify user:
+Use `playwright-cli snapshot`. If "拖动下方拼图完成验证" found, notify user:
 
 > CNKI 正在显示滑块验证码。请在 Chrome 浏览器中手动完成拼图验证，完成后告诉我继续。
 
 ### 3. Extract paper metadata via JavaScript
 
-Use `mcp__chrome-devtools__evaluate_script` with this function:
+Run `playwright-cli --raw eval` with this function:
 
 ```javascript
 () => {
@@ -156,7 +156,7 @@ Use `mcp__chrome-devtools__evaluate_script` with this function:
 
 ### 5. Fallback: snapshot-based parsing
 
-If JS extraction fails, use `mcp__chrome-devtools__take_snapshot` and parse the accessibility tree:
+If JS extraction fails, use `playwright-cli snapshot` and parse the accessibility tree:
 - **Title**: `heading` level 1 element
 - **Authors**: `link` elements whose URLs contain `kcms2/author/detail`
 - **Affiliations**: `link` elements whose URLs contain `kcms2/organ/detail`

@@ -31,7 +31,7 @@ Choose the right mode based on context:
 
 ### 1A. Single export: from paper detail page
 
-Use `mcp__chrome-devtools__evaluate_script`:
+Run `playwright-cli --raw eval`:
 
 ```javascript
 async () => {
@@ -70,7 +70,7 @@ On any CNKI search results page, extract checkbox values and call the export API
 
 Key discovery: `input.cbItem` checkbox `value` === detail page `#export-id` (same encrypted ID).
 
-Use `mcp__chrome-devtools__evaluate_script`:
+Run `playwright-cli --raw eval`:
 
 ```javascript
 async () => {
