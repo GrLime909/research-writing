@@ -14,7 +14,7 @@ except ImportError:
 
 COLUMNS = [
     "论文名", "作者", "发表时间", "期刊",
-    "DOI", "URL", "摘要",
+    "DOI", "URL", "摘要", "Keywords",
     "论文中文名", "摘要中文翻译", "入库时间"
 ]
 
@@ -28,6 +28,7 @@ class PaperRecord:
     doi: str
     url: str
     abstract: str
+    keywords: str = ""
     title_cn: str = ""
     abstract_cn: str = ""
     added_time: str = field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M"))
@@ -101,6 +102,12 @@ class ExcelManager:
         if self.path.exists():
             wb = load_workbook(self.path)
             ws = wb.active
+            headers = [str(cell.value).strip() if cell.value else "" for cell in ws[1]]
+            # Upgrade legacy workbooks in place so new rows do not shift the
+            # Chinese-title, translation, and timestamp columns.
+            if "Keywords" not in headers:
+                ws.insert_cols(8)
+                ws.cell(row=1, column=8, value="Keywords")
         else:
             wb = Workbook()
             ws = wb.active
@@ -109,6 +116,7 @@ class ExcelManager:
             ws.append([
                 p.title, p.authors, p.pub_date, p.journal,
                 p.doi, p.url, p.abstract,
+                p.keywords,
                 p.title_cn, p.abstract_cn, p.added_time
             ])
         for col_idx in range(1, len(COLUMNS) + 1):

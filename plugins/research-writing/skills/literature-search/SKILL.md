@@ -1,9 +1,8 @@
 ---
-name: literature-search-playwright
+name: literature-search
 description: Use when searching, browsing, exporting, or downloading WOS or CNKI literature through playwright-cli, especially for Web of Science, CNKI, journal monitoring, paper metadata extraction, Zotero/RIS export, or Excel literature databases.
 ---
-
-# Literature Search Playwright — Unified WOS + CNKI Entry Point
+# Literature Search— Unified WOS + CNKI Entry Point
 
 This is the Playwright CLI variant of the `literature-search` skill. Route all
 WOS/CNKI literature queries through this skill when the user wants browser
@@ -12,7 +11,7 @@ automation based on `playwright-cli`.
 Two internal engines, never called directly from outside:
 
 ```
-literature-search-playwright/
+literature-search/
 ├── SKILL.md                    ← this file (you are here)
 ├── wos-monitor/                ← WOS engine (8 sub-skills, 86 journals)
 │   ├── workflow.md              ← WOS engine overview + sub-skill index
@@ -43,16 +42,16 @@ manual IP/account login.
 
 Use the `playwright-cli` skill/commands for all browser operations:
 
-| Operation | Command pattern |
-|-----------|-----------------|
-| Open browser/session | `playwright-cli open --browser=chrome --persistent` |
-| Open with profile | `playwright-cli open --browser=chrome --profile=/path/to/profile` |
-| Attach to extension browser | `playwright-cli attach --extension=chrome` |
-| Navigate | `playwright-cli goto <url>` |
-| Run page JavaScript | `playwright-cli --raw eval '<javascript>'` |
-| Inspect accessible page | `playwright-cli snapshot` |
-| Manage tabs | `playwright-cli tab-list`, `playwright-cli tab-select <index>`, `playwright-cli tab-new <url>` |
-| Save/restore login state | `playwright-cli state-save <file>`, `playwright-cli state-load <file>` |
+| Operation                   | Command pattern                                                                                      |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Open browser/session        | `playwright-cli open --browser=chrome --persistent`                                                |
+| Open with profile           | `playwright-cli open --browser=chrome --profile=/path/to/profile`                                  |
+| Attach to extension browser | `playwright-cli attach --extension=chrome`                                                         |
+| Navigate                    | `playwright-cli goto <url>`                                                                        |
+| Run page JavaScript         | `playwright-cli --raw eval '<javascript>'`                                                         |
+| Inspect accessible page     | `playwright-cli snapshot`                                                                          |
+| Manage tabs                 | `playwright-cli tab-list`, `playwright-cli tab-select <index>`, `playwright-cli tab-new <url>` |
+| Save/restore login state    | `playwright-cli state-save <file>`, `playwright-cli state-load <file>`                           |
 
 For multi-line JavaScript from workflow files, either pass it directly to
 `playwright-cli --raw eval` with careful shell quoting, or place it in a
@@ -78,18 +77,18 @@ DOM selectors, and playwright-cli commands required.
 
 All paths relative to `literature-search-playwright/`.
 
-| User intent | Read this file |
-|-------------|---------------|
-| WOS keyword search, topic search | `wos-monitor/skills/wos-search/workflow.md` |
-| Browse / next page / previous page | `wos-monitor/skills/wos-navigate-pages/workflow.md` |
-| View paper full record (abstract, refs) | `wos-monitor/skills/wos-paper-detail/workflow.md` |
-| Download PDF | `wos-monitor/skills/wos-download/workflow.md` |
-| Export to Zotero / RIS / BibTeX | `wos-monitor/skills/wos-export/workflow.md` |
-| Export / append to Excel | `wos-monitor/skills/wos-excel-export/workflow.md` |
-| Parse current results page (auto after search) | `wos-monitor/skills/wos-parse-results/workflow.md` |
-| WOS anti-detection rules, API patterns | `wos-monitor/agents/wos-researcher.md` |
-| WOS page CSS selectors reference | `wos-monitor/references/wos-selectors.md` |
-| Publisher page selectors (Elsevier, Springer...) | `wos-monitor/references/publisher-selectors.md` |
+| User intent                                      | Read this file                                        |
+| ------------------------------------------------ | ----------------------------------------------------- |
+| WOS keyword search, topic search                 | `wos-monitor/skills/wos-search/workflow.md`         |
+| Browse / next page / previous page               | `wos-monitor/skills/wos-navigate-pages/workflow.md` |
+| View paper full record (abstract, refs)          | `wos-monitor/skills/wos-paper-detail/workflow.md`   |
+| Download PDF                                     | `wos-monitor/skills/wos-download/workflow.md`       |
+| Export to Zotero / RIS / BibTeX                  | `wos-monitor/skills/wos-export/workflow.md`         |
+| Export / append to Excel                         | `wos-monitor/skills/wos-excel-export/workflow.md`   |
+| Parse current results page (auto after search)   | `wos-monitor/skills/wos-parse-results/workflow.md`  |
+| WOS anti-detection rules, API patterns           | `wos-monitor/agents/wos-researcher.md`              |
+| WOS page CSS selectors reference                 | `wos-monitor/references/wos-selectors.md`           |
+| Publisher page selectors (Elsevier, Springer...) | `wos-monitor/references/publisher-selectors.md`     |
 
 For any WOS operation, the routing table above is **the only lookup you need**.
 Do NOT read `wos-monitor/workflow.md` unless you need the full engine overview.
@@ -98,20 +97,20 @@ Do NOT read `wos-monitor/workflow.md` unless you need the full engine overview.
 
 All paths relative to `literature-search-playwright/`.
 
-| User intent | Read this file |
-|-------------|---------------|
-| CNKI keyword search | `cnki-skills/skills/cnki-search/workflow.md` |
+| User intent                                               | Read this file                                          |
+| --------------------------------------------------------- | ------------------------------------------------------- |
+| CNKI keyword search                                       | `cnki-skills/skills/cnki-search/workflow.md`          |
 | Advanced search (author / journal / date / source filter) | `cnki-skills/skills/cnki-advanced-search/workflow.md` |
-| Browse / next page / sort results | `cnki-skills/skills/cnki-navigate-pages/workflow.md` |
-| View paper details (abstract, keywords, fund) | `cnki-skills/skills/cnki-paper-detail/workflow.md` |
-| Download PDF / CAJ | `cnki-skills/skills/cnki-download/workflow.md` |
-| Export to Zotero / RIS / GB/T 7714 | `cnki-skills/skills/cnki-export/workflow.md` |
-| Export / append to Excel | `cnki-skills/skills/cnki-excel-export/workflow.md` |
-| Parse current results page (auto after search) | `cnki-skills/skills/cnki-parse-results/workflow.md` |
-| Find journal by name / ISSN / CN | `cnki-skills/skills/cnki-journal-search/workflow.md` |
-| Query journal indexing & impact factor | `cnki-skills/skills/cnki-journal-index/workflow.md` |
-| Browse journal table of contents | `cnki-skills/skills/cnki-journal-toc/workflow.md` |
-| CNKI anti-bot rules, page management | `cnki-skills/agents/cnki-researcher.md` |
+| Browse / next page / sort results                         | `cnki-skills/skills/cnki-navigate-pages/workflow.md`  |
+| View paper details (abstract, keywords, fund)             | `cnki-skills/skills/cnki-paper-detail/workflow.md`    |
+| Download PDF / CAJ                                        | `cnki-skills/skills/cnki-download/workflow.md`        |
+| Export to Zotero / RIS / GB/T 7714                        | `cnki-skills/skills/cnki-export/workflow.md`          |
+| Export / append to Excel                                  | `cnki-skills/skills/cnki-excel-export/workflow.md`    |
+| Parse current results page (auto after search)            | `cnki-skills/skills/cnki-parse-results/workflow.md`   |
+| Find journal by name / ISSN / CN                          | `cnki-skills/skills/cnki-journal-search/workflow.md`  |
+| Query journal indexing & impact factor                    | `cnki-skills/skills/cnki-journal-index/workflow.md`   |
+| Browse journal table of contents                          | `cnki-skills/skills/cnki-journal-toc/workflow.md`     |
+| CNKI anti-bot rules, page management                      | `cnki-skills/agents/cnki-researcher.md`               |
 
 For any CNKI operation, the routing table above is **the only lookup you need**.
 Do NOT read `cnki-skills/workflow.md` unless you need the full engine overview.
@@ -141,15 +140,15 @@ Once your direction is clear, return here to execute the search.
 
 Just say what you want to find. The skill auto-selects the engine:
 
-| You say | Engine used |
-|---------|-------------|
-| "Search for urban resilience papers since 2024" | **WOS** (English keywords) |
-| "帮我搜城市韧性的最新论文" | **CNKI** (Chinese keywords) |
-| "Search WOS for climate adaptation" | **WOS** (explicit) |
-| "在知网搜水资源管理" | **CNKI** (explicit) |
-| "Search both WOS and CNKI for ecosystem services" | **Both** (explicit) |
-| "Search arXiv for graph neural network papers" | **arXiv** (explicit opt-in) |
-| "Search Google Scholar for urban governance" | **Google Scholar** (explicit opt-in) |
+| You say                                           | Engine used                                |
+| ------------------------------------------------- | ------------------------------------------ |
+| "Search for urban resilience papers since 2024"   | **WOS** (English keywords)           |
+| "帮我搜城市韧性的最新论文"                        | **CNKI** (Chinese keywords)          |
+| "Search WOS for climate adaptation"               | **WOS** (explicit)                   |
+| "在知网搜水资源管理"                              | **CNKI** (explicit)                  |
+| "Search both WOS and CNKI for ecosystem services" | **Both** (explicit)                  |
+| "Search arXiv for graph neural network papers"    | **arXiv** (explicit opt-in)          |
+| "Search Google Scholar for urban governance"      | **Google Scholar** (explicit opt-in) |
 
 ---
 
@@ -159,12 +158,12 @@ WOS and CNKI are the **default** literature sources. No automatic fallback
 to any other database. arXiv and Google Scholar are available only when
 explicitly requested by the user.
 
-| Source | Engine | Journals | Access |
-|--------|--------|----------|--------|
-| Web of Science Core Collection | `wos-monitor/` | 86 journals (wos-journals.txt) | playwright-cli, IP login |
-| CNKI (中国知网) | `cnki-skills/` | 124 journals (cnki-journals.txt) | playwright-cli, IP login |
-| arXiv (opt-in only) | Codex browsing | Preprints | Explicit: "search arXiv for ..." |
-| Google Scholar (opt-in only) | Codex browsing | Broad discovery | Explicit: "search Google Scholar for ..." |
+| Source                         | Engine           | Journals                         | Access                                    |
+| ------------------------------ | ---------------- | -------------------------------- | ----------------------------------------- |
+| Web of Science Core Collection | `wos-monitor/` | 86 journals (wos-journals.txt)   | playwright-cli, IP login                  |
+| CNKI (中国知网)                | `cnki-skills/` | 124 journals (cnki-journals.txt) | playwright-cli, IP login                  |
+| arXiv (opt-in only)            | Codex browsing   | Preprints                        | Explicit: "search arXiv for ..."          |
+| Google Scholar (opt-in only)   | Codex browsing   | Broad discovery                  | Explicit: "search Google Scholar for ..." |
 
 If WOS or CNKI is unavailable (IP blocked, session expired), **stop and report**
 rather than falling back to another source.
@@ -175,23 +174,23 @@ rather than falling back to another source.
 
 When no source is specified, the engine is chosen by keyword language:
 
-| Keyword Language | Auto-Selected Engine | Reason |
-|-----------------|---------------------|--------|
-| English (ASCII only) | `wos-monitor/` (WOS) | WOS indexes English journals |
-| Chinese (any CJK characters) | `cnki-skills/` (CNKI) | CNKI is the primary index for Chinese journals |
-| Mixed English + Chinese | Ask user, or search both engines | |
-| Any | arXiv / Google Scholar | Never auto-selected; only when user explicitly says "arXiv" or "Google Scholar" |
+| Keyword Language             | Auto-Selected Engine             | Reason                                                                          |
+| ---------------------------- | -------------------------------- | ------------------------------------------------------------------------------- |
+| English (ASCII only)         | `wos-monitor/` (WOS)           | WOS indexes English journals                                                    |
+| Chinese (any CJK characters) | `cnki-skills/` (CNKI)          | CNKI is the primary index for Chinese journals                                  |
+| Mixed English + Chinese      | Ask user, or search both engines |                                                                                 |
+| Any                          | arXiv / Google Scholar           | Never auto-selected; only when user explicitly says "arXiv" or "Google Scholar" |
 
 ---
 
 ## Keyword Logic
 
-| User says | Operator | Query |
-|-----------|----------|-------|
-| "A B" (space only, no connector) | **OR** | A OR B |
-| "A and B" | **AND** | A AND B |
-| "A + B" | **AND** | A AND B |
-| "A;B" / "A,B" | **OR** | A OR B |
+| User says                        | Operator      | Query   |
+| -------------------------------- | ------------- | ------- |
+| "A B" (space only, no connector) | **OR**  | A OR B  |
+| "A and B"                        | **AND** | A AND B |
+| "A + B"                          | **AND** | A AND B |
+| "A;B" / "A,B"                    | **OR**  | A OR B  |
 
 **Default rule**: Space-separated keywords = **OR** (broader search).
 Use explicit connector (and/+) for **AND**.
@@ -205,6 +204,7 @@ multiple English terms — regardless of whether the input was Chinese or
 English. A single keyword is a single point of failure.
 
 This applies to ALL WOS searches:
+
 - Chinese keywords → translate to English + add synonyms
 - English keywords → add near-synonyms (no translation needed)
 - Abbreviations → verify meaning + add full form + exclude false matches
@@ -217,6 +217,7 @@ Do NOT translate word-for-word — use established terminology in the field.
 ### Step 2: Expand synonyms (always, for every concept)
 
 For each English concept, generate 2-4 search terms:
+
 - the primary term (from translation or user input)
 - a narrower or more specific synonym
 - a broader or adjacent synonym
@@ -243,11 +244,11 @@ If any English term has a known academic abbreviation:
 
 **Abbreviation disambiguation table** (check before search):
 
-| Abbreviation | Possible meanings | When searching for... | Add NOT for... |
-|-------------|-------------------|----------------------|----------------|
-| LAC | Lorenz asymmetry coefficient / Latin America and Caribbean / Lactate | Lorenz asymmetry | "Latin America", Caribbean, lactate |
-| ML | Machine learning / Maximum likelihood / Milliliter | Machine learning | "maximum likelihood" (if relevant) |
-| AI | Artificial intelligence / Artificial insemination | Artificial intelligence | Usually unambiguous in CS journals |
+| Abbreviation | Possible meanings                                                    | When searching for...   | Add NOT for...                      |
+| ------------ | -------------------------------------------------------------------- | ----------------------- | ----------------------------------- |
+| LAC          | Lorenz asymmetry coefficient / Latin America and Caribbean / Lactate | Lorenz asymmetry        | "Latin America", Caribbean, lactate |
+| ML           | Machine learning / Maximum likelihood / Milliliter                   | Machine learning        | "maximum likelihood" (if relevant)  |
+| AI           | Artificial intelligence / Artificial insemination                    | Artificial intelligence | Usually unambiguous in CS journals  |
 
 When in doubt, check the abbreviation on the target journal's typical usage
 or add the NOT exclusion. A narrower result is better than a noisy one.
@@ -257,12 +258,14 @@ or add the NOT exclusion. A narrower result is better than a noisy one.
 **Input**: 在WOS中搜索洛伦兹不对称系数评估生态系统
 
 **Auto-expansion**:
-| Chinese | English synonyms + abbreviation | Exclusion |
-|---------|-------------------------------|-----------|
+
+| Chinese          | English synonyms + abbreviation                           | Exclusion                          |
+| ---------------- | --------------------------------------------------------- | ---------------------------------- |
 | 洛伦兹不对称系数 | "Lorenz asymmetry coefficient", "Lorenz asymmetry", "LAC" | NOT ("Latin America" OR Caribbean) |
-| 生态系统 | "ecosystem", "ecological system", "ecosystem service*" | — |
+| 生态系统         | "ecosystem", "ecological system", "ecosystem service*"    | —                                 |
 
 **Final WOS query**:
+
 ```
 TS=("Lorenz asymmetry coefficient" OR "Lorenz asymmetry" 
     OR ("LAC" NOT ("Latin America" OR Caribbean OR lactate)))
@@ -271,6 +274,7 @@ AND TS=(evaluat* OR assess* OR effect* OR measur*)
 ```
 
 **User confirmation**:
+
 ```
 Keyword expansion:
   洛伦兹不对称系数 → "Lorenz asymmetry coefficient" / "Lorenz asymmetry" / "LAC"
@@ -286,12 +290,14 @@ Search now?
 **Input**: Search WOS for water governance resilience
 
 **Auto-expansion**:
-| English | Synonyms | Exclusion |
-|---------|----------|-----------|
-| water governance | "water governance", "water management", "integrated water resource management" | — |
-| resilience | "resilience", "adaptive capacity", "robustness" | — |
+
+| English          | Synonyms                                                                       | Exclusion |
+| ---------------- | ------------------------------------------------------------------------------ | --------- |
+| water governance | "water governance", "water management", "integrated water resource management" | —        |
+| resilience       | "resilience", "adaptive capacity", "robustness"                                | —        |
 
 **Final WOS query**:
+
 ```
 TS=("water governance" OR "water management" OR "integrated water resource management")
 AND TS=("resilience" OR "adaptive capacity" OR "robustness")
@@ -336,7 +342,6 @@ wos-monitor/
     ├── wos-selectors.md         ← WOS page CSS selectors
     └── publisher-selectors.md   ← Publisher page selectors
 ```
-
 
 Sub-skill routing is defined in the **WOS Routing Table** above — always consult that table before any WOS operation.
 
@@ -404,13 +409,14 @@ Sub-skill routing is defined in the **CNKI Routing Table** above — always cons
 arXiv and Google Scholar are available but **never auto-selected**. The user
 must explicitly name the source:
 
-| User says | Action |
-|-----------|--------|
-| "Search arXiv for climate adaptation preprints" | Search arXiv only |
-| "Use Google Scholar to find urban governance papers" | Search Google Scholar only |
-| "Search WOS and also check arXiv" | WOS primary, arXiv supplementary |
+| User says                                            | Action                           |
+| ---------------------------------------------------- | -------------------------------- |
+| "Search arXiv for climate adaptation preprints"      | Search arXiv only                |
+| "Use Google Scholar to find urban governance papers" | Search Google Scholar only       |
+| "Search WOS and also check arXiv"                    | WOS primary, arXiv supplementary |
 
 When arXiv or Google Scholar is requested:
+
 - Results are marked as **unverified** (no institutional indexing guarantee)
 - No journal-list filtering is applied
 - WOS/CNKI deduplication rules still apply (mark duplicates, don't silently drop)

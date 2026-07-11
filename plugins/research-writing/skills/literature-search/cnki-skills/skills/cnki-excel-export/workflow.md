@@ -1,6 +1,6 @@
 ---
 name: cnki-excel-export
-description: Export CNKI search results to Excel with deduplication. Columns include title, authors, journal, abstract, pub date, and placeholder columns for Chinese translation.
+description: Export CNKI search results to Excel with deduplication. Columns include title, authors, journal, abstract, 关键词, pub date, and placeholder columns for Chinese translation.
 argument-hint: "[--output path.xlsx]"
 user-invocable: true
 disable-model-invocation: false
@@ -9,7 +9,7 @@ disable-model-invocation: false
 # CNKI Excel Export
 
 Export CNKI search results to Excel. Deduplicates by DOI, then (title + journal + year).
-Output columns: 文章标题 | 作者 | 所属期刊 | 摘要 | 发表时间 | 中文标题 | 中文摘要 | 入库时间
+Output columns: 文章标题 | 作者 | 所属期刊 | 摘要 | 关键词 | 发表时间 | 中文标题 | 中文摘要 | 入库时间
 
 ## Steps
 
@@ -22,10 +22,14 @@ Gather paper data from the current search session. Each paper should have:
   "authors": "作者1; 作者2",
   "journal": "期刊名",
   "abstract": "摘要文本",
+  "keywords": ["关键词1", "关键词2"],
   "pub_date": "2026-01-15",
   "doi": "10.xxxx/xxxxx"
 }
 ```
+
+`关键词` is populated from the CNKI paper-detail `keywords` field and is
+written as a semicolon-separated string in Excel.
 
 ### Step 2: Run Excel Export Script
 

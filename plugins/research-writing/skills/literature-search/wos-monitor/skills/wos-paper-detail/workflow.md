@@ -97,6 +97,13 @@ async () => {
   };
   const authorKeywords = getKeywords('Author Keywords');
   const keywordsPlus = getKeywords('Keywords Plus');
+  // Unified export field: preserve Author Keywords first, then append
+  // Keywords Plus entries that are not already present.
+  const keywords = [...new Map(
+    [...authorKeywords, ...keywordsPlus]
+      .filter(Boolean)
+      .map(keyword => [keyword.toLowerCase(), keyword])
+  ).values()];
 
   // Categories
   const researchAreas = getField('Research Areas');
@@ -140,7 +147,7 @@ async () => {
     title, authors, abstract, source, doi,
     volume, issue, pages, published, earlyAccess,
     docType, language, accessionNumber, issn, eissn,
-    authorKeywords, keywordsPlus,
+    authorKeywords, keywordsPlus, keywords,
     researchAreas, wosCategories,
     citedCount, alldbCited, refsCount,
     jif, jifYear, jifFiveYear, jcrQuartile,

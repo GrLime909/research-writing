@@ -1,6 +1,6 @@
 ﻿"""Excel read/append/dedup manager for cnki-skills — shared with WOS.
 
-Columns: 文章标题, 作者, 所属期刊, 摘要, 发表时间, 中文标题, 中文摘要, 入库时间
+Columns: 文章标题, 作者, 所属期刊, 摘要, 关键词, 发表时间, 中文标题, 中文摘要, 入库时间
 Dedup: DOI first, then (title + journal + year) fallback.
 """
 
@@ -20,7 +20,7 @@ except ImportError:
     sys.exit(1)
 
 COLUMNS = [
-    "文章标题", "作者", "所属期刊", "摘要", "发表时间",
+    "文章标题", "作者", "所属期刊", "摘要", "关键词", "发表时间",
     "中文标题", "中文摘要", "入库时间"
 ]
 
@@ -32,6 +32,7 @@ class PaperRecord:
     journal: str
     abstract: str
     pub_date: str
+    keywords: str = ""
     doi: str = ""
     title_cn: str = ""
     abstract_cn: str = ""
@@ -49,7 +50,7 @@ class PaperRecord:
     def to_row(self) -> list:
         return [
             self.title, self.authors, self.journal, self.abstract,
-            self.pub_date, self.title_cn, self.abstract_cn, self.added_time
+            self.keywords, self.pub_date, self.title_cn, self.abstract_cn, self.added_time
         ]
 
 
@@ -70,7 +71,8 @@ class ExcelManager:
                 col_map[str(cell.value).strip()] = col_idx
         wb.close()
 
-        doi_col = col_map.get("DOI") or col_map.get("DOI")
+        doi_col = col_map.get("DOI")
+        date_col = col_map.get("发表时间", 5)
         # Re-open for reading values (read_only mode can't iterate twice easily)
         wb = load_workbook(self.path, read_only=True)
         ws = wb.active
@@ -86,10 +88,11 @@ class ExcelManager:
             if doi_val and doi_val.lower().startswith("10."):
                 keys.add(f"doi:{doi_val.lower()}")
                 continue
-            # Fallback: title (col 1) + journal (col 3) + pub_date (col 5)
+            # Fallback: title (col 1) + journal (col 3) + publication date header.
+            # Header lookup preserves deduplication for legacy workbooks without 关键词.
             t = row_vals[0] if len(row_vals) > 0 else ""
             j = row_vals[2] if len(row_vals) > 2 else ""
-            d = row_vals[4] if len(row_vals) > 4 else ""
+            d = row_vals[date_col - 1] if len(row_vals) >= date_col else ""
             if t and j:
                 normalized = re.sub(r"\s+", " ", t.lower().strip())
                 normalized = re.sub(r"[^\w\s]", "", normalized)
@@ -119,6 +122,12 @@ class ExcelManager:
         if self.path.exists():
             wb = load_workbook(self.path)
             ws = wb.active
+            headers = [str(cell.value).strip() if cell.value else "" for cell in ws[1]]
+            # Upgrade legacy workbooks in place so rows exported after this
+            # update remain aligned with their header columns.
+            if "关键词" not in headers:
+                ws.insert_cols(5)
+                ws.cell(row=1, column=5, value="关键词")
         else:
             wb = Workbook()
             ws = wb.active
@@ -154,6 +163,9 @@ def load_papers_from_json(data) -> list[PaperRecord]:
             authors=item.get("authors", "") if isinstance(item.get("authors"), str) else "; ".join(item.get("authors", [])),
             journal=item.get("journal", "") or item.get("source", "") or item.get("publicationTitle", ""),
             abstract=item.get("abstract", "") or item.get("abstractNote", ""),
+            keywords="; ".join(item.get("keywords", [])) if isinstance(item.get("keywords"), list) else (
+                item.get("keywords", "") or item.get("keyword", "") or item.get("Keyword-关键词", "")
+            ),
             pub_date=item.get("date", "") or item.get("pub_date", "") or item.get("pubTime", ""),
             doi=item.get("doi", "") or item.get("DOI", ""),
             title_cn=item.get("title_cn", ""),

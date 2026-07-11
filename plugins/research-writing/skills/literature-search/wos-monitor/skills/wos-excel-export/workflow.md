@@ -1,6 +1,6 @@
 ---
 name: wos-excel-export
-description: Export WOS search results to Excel with deduplication. Columns include title, authors, journal, abstract, pub date, and placeholder columns for Chinese translation.
+description: Export WOS search results to Excel with deduplication. Columns include title, authors, journal, abstract, Keywords, pub date, and placeholder columns for Chinese translation.
 argument-hint: "[--output path.xlsx] [--translate]"
 user-invocable: true
 disable-model-invocation: false
@@ -9,7 +9,7 @@ disable-model-invocation: false
 # WOS Excel Export
 
 Export WOS search results to Excel. Deduplicates by DOI, then (title + journal + year).
-Output columns: 文章标题 | 作者 | 所属期刊 | 摘要 | 发表时间 | 中文标题 | 中文摘要 | 入库时间
+Output columns: 论文名 | 作者 | 发表时间 | 期刊 | DOI | URL | 摘要 | Keywords | 论文中文名 | 摘要中文翻译 | 入库时间
 
 ## Steps
 
@@ -22,10 +22,15 @@ Gather paper data from the current search session. Each paper should have:
   "authors": "LastName, Initials; ...",
   "journal": "Journal name",
   "abstract": "Abstract text",
+  "keywords": ["author keyword 1", "author keyword 2", "Keywords Plus term"],
   "pub_date": "2026-01-15",
   "doi": "10.xxxx/xxxxx"
 }
 ```
+
+`Keywords` is populated from the full-record **Author Keywords** and
+**Keywords Plus** fields. Combine the two lists, remove duplicates, and retain
+their original English terms before exporting.
 
 ### Step 2: Run Excel Export Script
 
