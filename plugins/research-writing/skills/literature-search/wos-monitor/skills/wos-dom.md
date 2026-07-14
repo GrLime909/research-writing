@@ -100,7 +100,7 @@ Example: `/wos/woscc/full-record/WOS:000779183600001`
 ### Other Pages
 
 - Smart Search: `/wos/woscc/smart-search`
-- Fielded Search: `/wos/woscc/basic-search`
+- Fielded Search: `/wos/alldb/basic-search`
 - Query Builder: `/wos/woscc/advanced-search`
 - Cited References Search: `/wos/woscc/cited-reference-search`
 

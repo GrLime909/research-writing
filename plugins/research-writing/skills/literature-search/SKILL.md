@@ -158,12 +158,12 @@ WOS and CNKI are the **default** literature sources. No automatic fallback
 to any other database. arXiv and Google Scholar are available only when
 explicitly requested by the user.
 
-| Source                         | Engine           | Journals                         | Access                                    |
-| ------------------------------ | ---------------- | -------------------------------- | ----------------------------------------- |
-| Web of Science Core Collection | `wos-monitor/` | 86 journals (wos-journals.txt)   | playwright-cli, IP login                  |
-| CNKI (中国知网)                | `cnki-skills/` | 124 journals (cnki-journals.txt) | playwright-cli, IP login                  |
-| arXiv (opt-in only)            | Codex browsing   | Preprints                        | Explicit: "search arXiv for ..."          |
-| Google Scholar (opt-in only)   | Codex browsing   | Broad discovery                  | Explicit: "search Google Scholar for ..." |
+| Source                         | Engine           | Journals          | Access                                    |
+| ------------------------------ | ---------------- | ----------------- | ----------------------------------------- |
+| Web of Science Core Collection | `wos-monitor/` | wos-journals.txt  | playwright-cli, IP login                  |
+| CNKI (中国知网)                | `cnki-skills/` | cnki-journals.txt | playwright-cli, IP login                  |
+| arXiv (opt-in only)            | Codex browsing   | Preprints         | Explicit: "search arXiv for ..."          |
+| Google Scholar (opt-in only)   | Codex browsing   | Broad discovery   | Explicit: "search Google Scholar for ..." |
 
 If WOS or CNKI is unavailable (IP blocked, session expired), **stop and report**
 rather than falling back to another source.

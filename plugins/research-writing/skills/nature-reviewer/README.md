@@ -1,85 +1,44 @@
-# `nature-reviewer` skill
+# `nature-reviewer` 技能
 
-A reviewer-assessment skill for simulating a `Nature`-style referee package from the reviewer perspective rather than the author-rebuttal perspective.
+[English](README_EN.md)
 
-This skill was created specifically from the reviewer-related content in `Nature`'s official `Editorial criteria and processes` page:
-`https://www-nature-com/nature/for-authors/editorial-criteria-and-processes`
+`nature-reviewer` 用于从审稿人视角模拟 Nature 风格的预投稿评审，帮助作者在投稿前发现 novelty、significance、technical soundness 和读者价值上的风险。
 
-The motivation is narrow and explicit:
+## 适合用它做什么
 
-- extract the reviewer-relevant rules from that official `Nature` source
-- ensure the simulated reviewer behaviour stays consistent with those rules
-- avoid drifting into generic peer-review habits or invented reviewer personas
-- produce a reusable `nature-reviewer` skill that reflects the official source basis as closely as possible within the repository's skill format
+- 对手稿、摘要、图表或结果故事线做投稿前压力测试。
+- 按 Nature 官方审稿维度评估 originality、scientific importance、interdisciplinary readership、technical soundness 和 readability。
+- 生成三份重点不同的 reviewer reports 和一份 cross-review synthesis。
+- 标记无支撑声称、技术缺陷、证据链断点和非专业读者理解障碍。
+- 判断哪些读者会关心这项工作，以及为什么。
 
-Accordingly, this skill is intentionally conservative. It is grounded in the local copy of that source under `references/editorial criteria and processes.md`, then converted into a conservative output contract: `3 reviewer reports + 1 cross-review synthesis`. The three reports differ only by `emphasis`, because the source supports reviewer function and report content, but does not define fictional reviewer identities or specialty personas.
+## 典型请求
 
-## What it does
+- “像 Nature reviewer 一样审这篇 introduction 和 Figure 1。”
+- “投稿前帮我找最可能被审稿人攻击的技术问题。”
+- “给我三份 reviewer reports 和一个综合判断，不要写 rebuttal。”
 
-- reads a manuscript draft, abstract, selected sections, figures, or author notes as a reviewer-facing input package
-- evaluates the work against source-grounded `Nature`-style axes: `originality`, `scientific importance`, `interdisciplinary readership`, `technical soundness`, and `readability for nonspecialists`
-- generates `3` reviewer reports that differ only in `emphasis`, not in invented identity or specialty
-- states who would be interested in the results and why
-- identifies technical failings that must be addressed before the authors' case is established
-- synthesizes consensus and emphasis differences across the three reports
-- flags unsupported claims and material that cannot be assessed from the supplied evidence
+## 你需要提供
 
-## When to use
+- 手稿全文、摘要、关键章节、图表、图注或作者说明。
+- 目标期刊、学科领域和你最担心的审稿风险。
+- 已有补充实验或不能新增实验的限制。
 
-- simulating a `Nature` reviewer report before submission
-- stress-testing whether a manuscript makes a credible broad-interest case
-- asking for a reviewer-style assessment of novelty, significance, or technical soundness
-- generating a pre-submission critique from the referee perspective
-- evaluating whether a manuscript is readable to non-specialists
-- obtaining a bounded peer-review style response without drafting an author rebuttal
+## 产出
 
-If the user wants a point-by-point author response or revision letter, use `nature-response` instead.
+- 三份 peer-review style reports。
+- Cross-review synthesis：共识问题、分歧重点和编辑层风险。
+- 必须补强的实验、分析、叙事或图表证据清单。
+- 对无证据判断的明确标记。
 
-## What it returns
+## 边界
 
-Unless the user asks for another format, the skill returns:
+- 不会虚构具体审稿人身份、专业人设或编辑决定。
+- 只基于用户提供材料和技能内官方审稿规则做保守模拟。
+- 如果目标是写返修回复，优先使用 `nature-response`。
 
-1. `Review setup`
-2. `Reviewer 1`
-3. `Reviewer 2`
-4. `Reviewer 3`
-5. `Cross-review synthesis`
-6. `Risk / unsupported claims`
+## 相关技能
 
-## Core rules
-
-- Ground the assessment in the local reviewer source and the user-supplied manuscript facts only.
-- Keep the three reviewers aligned on the same facts; vary only the weighting of those facts.
-- Do not invent reviewer identities, narrow specialty roles, institutions, or hidden knowledge.
-- Explicitly address `who will be interested in the new results and why`.
-- Explicitly identify `technical failings` that still block the authors' case.
-- Distinguish technical validity from broad-interest fit; the source treats these as related but not identical.
-- Mark `AUTHOR_INPUT_NEEDED`, `Not assessable from provided material`, or equivalent uncertainty labels instead of fabricating details.
-
-## Source hierarchy
-
-- `references/editorial criteria and processes.md` as the primary authoritative local source
-- user-supplied manuscript facts and evidence
-- conservative local implementation rules summarized in `references/source-basis.md`
-
-This skill must not silently expand beyond that source basis into generic reviewer-role invention or journal-policy speculation.
-
-## File structure
-
-```text
-nature-reviewer/
-├── README.md
-├── SKILL.md
-└── references/
-    ├── editorial criteria and processes.md
-    ├── source-basis.md
-    ├── reviewer-workflow.md
-    ├── review-axes.md
-    ├── report-structure.md
-    ├── role-boundaries.md
-    └── qa-checklist.md
-```
-
-## Status
-
-Draft. The first version is source-defined and structured for grounded reviewer simulation, but it has not yet been validated against a library of real anonymized manuscript-review examples.
+- `nature-response`：把真实审稿意见转成回复包。
+- `nature-writing`：根据评审风险重建手稿叙事。
+- `nature-statistics`：深入审查统计设计和报告。

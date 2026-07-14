@@ -122,7 +122,7 @@ Multiple editions can be combined: `["WOS.SCI", "WOS.SSCI"]`
 
 **This is the only tool call needed — 1 call total.**
 
-If the browser was previously on a non-WoS page (e.g., after following a publisher link), SID will be lost. In that case, **first navigate back to any WoS page** (`playwright-cli goto` to `https://www.webofscience.com/wos/woscc/basic-search`) to re-establish the session, then run the API call. This adds 1 extra tool call (2 total).
+If the browser was previously on a non-WoS page (e.g., after following a publisher link), SID will be lost. In that case, **first navigate back to any WoS page** (`playwright-cli goto` to `https://www.webofscience.com/wos/alldb/basic-search`) to re-establish the session, then run the API call. This adds 1 extra tool call (2 total).
 
 Alternatively, use the **URL-based fallback** (Step 2B below) which always works regardless of SID state.
 

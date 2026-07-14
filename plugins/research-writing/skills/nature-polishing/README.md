@@ -1,68 +1,49 @@
-# `nature-polishing` skill
+# `nature-polishing` 技能
 
-An academic-writing skill for polishing, restructuring, and translating manuscript prose into concise `Nature`-leaning English.
+[English](README_EN.md)
 
-Source hierarchy:
+`nature-polishing` 用于把学术手稿文本润色、重构或翻译成更接近 Nature 风格的简洁英文，同时保持作者原意、证据边界和引用意图。
 
-- `Main strategy`: the course notes in `Chapter1-Week1-7 full version.pdf`
-- `Published article patterns`: curated Nature and Nature Communications examples
-- `Reference support`: `Academic-Phrasebank-Navigable-PDF-2023.pdf`
+## 适合用它做什么
 
-## What changed
+- 将中文学术段落翻译为投稿可用英文。
+- 精简冗长句子，增强论证顺序和段落推进。
+- 按 Nature / Nature Communications 论文范式调整摘要、引言、结果、讨论或标题。
+- 区分 research paper 与 methods paper 的写作重点。
+- 检查 AI 味、夸张声称、过度因果表达和不自然搭配。
 
-- The main `SKILL.md` now follows the first PDF's architecture: paper type, reader workflow, hourglass structure, writing order, section responsibilities, intellectual debt, and AI/ethics boundaries.
-- Article-level polishing can now use the published-paper pattern reference for abstracts, introductions, Results, Discussions, conclusions, and titles.
-- The reference folder now serves a narrower role: phrase families, move templates, and style checks derived from the second PDF.
-- The skill now distinguishes `research papers` from `methods papers`.
-- The skill treats `core argument ownership` as a central rule, not a side note.
+## 方法来源
 
-## File structure
+- 写作策略：学术写作课程笔记中的沙漏结构、读者工作流和章节职责。
+- 发表论文模式：精选 Nature 与 Nature Communications 文章的 section moves。
+- 短语支持：Academic Phrasebank 中适合学术论文的表达族。
 
-```text
-nature-polishing/
-├── SKILL.md
-├── README.md
-└── references/
-    ├── published-article-patterns.md
-    ├── phrasebank-playbook.md
-    ├── section-moves.md
-    ├── style-guardrails.md
-    ├── writing-strategy.md
-    └── latex-layout.md
-```
+## 典型请求
 
-## When to use
+- “把这段中文结果翻译成 Nature 风格英文，保持克制。”
+- “润色 abstract，不要改变事实和引用意图。”
+- “这段 introduction 太像 AI 写的，帮我重构逻辑和语言。”
 
-- polishing an abstract, introduction, results, discussion, conclusion, or title
-- polishing a methods section or a methods paper with fair-comparison logic
-- translating Chinese academic text into publishable English
-- tightening section logic before submission
-- softening overclaims and fixing evidence-weighted language
-- making prose read more like strong journal English without inventing content
-- fixing LaTeX layout/typesetting (排版): loose or sparse pages, stranded section headings, figures that don't fill the page or split across pages, "Float too large", multi-panel arrangement, sparse Supplementary Information
+## 你需要提供
 
-## Design intent
+- 原文、目标章节、论文类型和希望保留的术语。
+- 不能改变的事实、数据、引用和专有表达。
+- 期望输出：只给改写版，还是给修改说明和风险标记。
 
-The skill should:
+## 产出
 
-- preserve facts, citation intent, and author responsibility
-- make the first PDF the governing writing strategy
-- improve rhetorical sequencing at paragraph level
-- keep sentences short and readable
-- use the second PDF only as the phrase and reference layer
-- avoid generic AI prose and unsupported claims
+- 可粘贴的英文改写或中英对照版本。
+- 关键修改说明：逻辑重排、语气收敛、术语统一和声称边界。
+- 需要作者确认的事实或引用意图。
 
-## Reference map
+## 边界
 
-- `section-moves.md`: section order and move patterns
-- `published-article-patterns.md`: writing patterns from curated Nature and Nature Communications articles
-- `phrasebank-playbook.md`: hedging, transitions, evidence, limitations, future work
-- `style-guardrails.md`: British style, articles, abbreviations, units, register, overclaim control
-- `writing-strategy.md`: paragraph- and section-level argument logic
-- `latex-layout.md`: LaTeX float/page typesetting — top-aligned float glue, the `\clearpage`+`[H]` heading-figure unit, `placeins` caveats, regenerating wide-and-short figures taller at the source, multi-panel stacking, and a render-and-contact-sheet diagnosis workflow
+- 不会替作者新增结果、机制、统计意义或未给出的引用。
+- 不会为了更像 Nature 而夸大 novelty、causality 或 generality。
+- 如果需要从零搭建论文章节，优先使用 `nature-writing`。
 
-## Notes
+## 相关技能
 
-- The skill is designed for polishing and restructuring, not for fabricating scientific content.
-- The main strategic rules live in `SKILL.md`; the reference files should not overrule them.
-- The reference files are intentionally selective. They are meant to guide choices, not to encourage boilerplate copying.
+- `nature-writing`：章节级起草和论证重建。
+- `nature-response`：返修回复信和 cover letter 语言。
+- `nature-statistics`：统计文本、图注和审稿统计回复。
