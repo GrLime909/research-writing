@@ -39,7 +39,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS = REPO_ROOT / "shared/contracts/passport"
 
 BIBLIOGRAPHY_AGENT_PATH = REPO_ROOT / "deep-research/agents/bibliography_agent.md"
-BIBLIOGRAPHY_AGENT_SHA256 = "39370675561f74fae9a8595bdeb03939402d273a0734b6bcaa1230d5e9928616"  # #489 harness-retirement baseline (B4-F01); F2 ownership guard per spec §3.4 + §3.6. The B4-F01 apply rewrote ONLY the Phase Boundary enforcement-status sentence (stale "hook deferred to #134" claim → post-PR-#294 two-layer reality); NO M6 citation-provenance / M5 version-family / temporal logic added, so the ownership invariant the hash protects is intact. (Previous baseline 4d8bee06… was the #272 guidance-layer state.)
+BIBLIOGRAPHY_AGENT_SHA256 = "d6dc70e8775a188b3d51ea7ee43b5a58fc5013119086166516f05cf006b15ad5"  # #738 baseline: the /ars-mark-read example now supplies required --scope; NO temporal/M6/M5 logic touched, ownership invariant intact. Previous accepted #660/#651/#548/#511 additions remain covered by the same rule.
 
 
 def _validate(yaml_path: Path, schema_path: Path) -> list[str]:

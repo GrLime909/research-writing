@@ -1,4 +1,5 @@
 ---
+name: ars-rebuttal-audit
 description: ARS academic-paper `rebuttal-audit` mode — QA an existing rebuttal draft against reviewer comments
 model: sonnet
 ---
@@ -8,4 +9,4 @@ Trigger the `academic-paper` skill in `rebuttal-audit` mode. Requires BOTH the r
 If only reviewer comments are present (no draft yet), use `revision-coach` instead.
 
 Mode reference: `MODE_REGISTRY.md` § academic-paper.
-Skill entry: `academic-paper/SKILL.md`.
+Skill entry: `academic-paper/WORKFLOW.md`.
